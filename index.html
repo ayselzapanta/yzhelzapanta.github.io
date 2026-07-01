@@ -145,7 +145,7 @@
             padding: 0 30px;
         }
 
-        /* ================= PREMIUM CAROUSEL LAYOUT (From your sketch) ================= */
+        /* ================= SEAMLESS INFINITE SLIDER WITH HOVER EFFECT ================= */
         .carousel-wrapper {
             position: relative;
             max-width: 850px;
@@ -160,11 +160,18 @@
             overflow: hidden;
             border-radius: 16px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            /* Hover Effect Styles */
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Triggers the container box-shadow glow and subtle scaling up when hovering */
+        .carousel-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
         .carousel-track {
             display: flex;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             width: 100%;
         }
 
@@ -184,7 +191,7 @@
             border: 0;
         }
 
-        /* Slider Navigation Buttons styled matching back/forth sketch logic */
+        /* Slider Navigation Buttons */
         .slider-btn {
             position: absolute;
             top: 50%;
@@ -211,13 +218,8 @@
             border-color: var(--accent-color);
         }
 
-        .slider-btn.prev {
-            left: -70px;
-        }
-
-        .slider-btn.next {
-            right: -70px;
-        }
+        .slider-btn.prev { left: -70px; }
+        .slider-btn.next { right: -70px; }
 
         /* Portfolio Specific Toggle Buttons */
         .portfolio-tabs {
@@ -265,7 +267,7 @@
             gap: 25px;
         }
 
-        /* Standard video element boxes for interior subgrids */
+        /* Portfolio standard view video box items */
         .video-box {
             position: relative;
             width: 100%;
@@ -281,13 +283,8 @@
             box-shadow: 0 0 25px var(--accent-glow);
         }
 
-        .longform-box {
-            padding-top: 56.25%;
-        }
-
-        .shortform-box {
-            padding-top: 177.77%;
-        }
+        .longform-box { padding-top: 56.25%; }
+        .shortform-box { padding-top: 177.77%; }
 
         .video-box iframe {
             position: absolute;
@@ -377,7 +374,7 @@
             margin-top: 30px;
         }
 
-        /* Adjust positions for clean mobile layout scrolling */
+        /* Mobile Adjustments */
         @media (max-width: 992px) {
             .slider-btn.prev { left: 15px; }
             .slider-btn.next { right: 15px; }
@@ -423,12 +420,18 @@
     <div id="page-home" class="container page-section active-section">
         <h2 class="section-title">Sample Work</h2>
         
-        <!-- Interactive Horizontal Video Slider matches sketch perfectly -->
+        <!-- Infinite Horizontal Video Slider Architecture -->
         <div class="carousel-wrapper">
             <button class="slider-btn prev" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
             
             <div class="carousel-container">
                 <div class="carousel-track" id="sliderTrack">
+                    <!-- Clone of Last Slide (For Seamless Backward Loop) -->
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    
+                    <!-- Real Curated Slides -->
                     <div class="carousel-slide">
                         <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
@@ -440,6 +443,11 @@
                     </div>
                     <div class="carousel-slide">
                         <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    
+                    <!-- Clone of First Slide (For Seamless Forward Loop) -->
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -463,7 +471,7 @@
             <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">Shortform Shorts</button>
         </div>
 
-        <!-- Longform Full Library Wrapper -->
+        <!-- Longform Library Wrapper -->
         <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe></div>
@@ -474,7 +482,7 @@
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe></div>
         </div>
 
-        <!-- Shortform Full Library Wrapper -->
+        <!-- Shortform Library Wrapper -->
         <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe></div>
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe></div>
@@ -505,22 +513,37 @@
     </footer>
 
     <script>
-        // Slider Navigation Engine
-        let currentSlide = 0;
-        const totalSlides = 4; // 4 sample curated videos
+        // Infinite Loop Slider Control Logic
+        const track = document.getElementById('sliderTrack');
+        const slides = document.querySelectorAll('.carousel-slide');
+        
+        let currentSlide = 1; // Starts at 1 because index 0 is the cloned last slide
+        const totalRealSlides = 4;
+        
+        // Initialize position to look at first real slide
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
         function moveSlider(direction) {
+            if (track.style.transition === "none") return; // Frame-guard fast clicking
+            
             currentSlide += direction;
-            
-            // Boundary protections loops
-            if (currentSlide < 0) {
-                currentSlide = totalSlides - 1;
-            } else if (currentSlide >= totalSlides) {
-                currentSlide = 0;
-            }
-            
-            const track = document.getElementById('sliderTrack');
+            track.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)";
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            // Wait for sliding transition animation to end, then inspect boundaries
+            setTimeout(() => {
+                if (currentSlide === 0) {
+                    // Jumps instantly to the true end slide counterpart
+                    track.style.transition = "none";
+                    currentSlide = totalRealSlides;
+                    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                } else if (currentSlide === totalRealSlides + 1) {
+                    // Jumps instantly to the true beginning slide counterpart
+                    track.style.transition = "none";
+                    currentSlide = 1;
+                    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                }
+            }, 500);
         }
 
         // System to swap between global page layouts smoothly
