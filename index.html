@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yzhel Zapanta | Video Editor Portfolio</title>
     
+    <!-- Google Fonts: Plus Jakarta Sans for premium typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome for social media and slider icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -152,7 +154,7 @@
             padding: 0 30px;
         }
 
-        /* ================= NEW TWO-COLUMN ABOUT VIEW STYLING ================= */
+        /* ================= TWO-COLUMN ABOUT VIEW STYLING ================= */
         .about-grid {
             display: flex;
             align-items: center;
@@ -437,6 +439,24 @@
             color: var(--text-main);
         }
 
+        .socials-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .socials-row a {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .socials-row a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
         .copyright {
             font-size: 0.75rem;
             color: rgba(255,255,255,0.3);
@@ -462,6 +482,7 @@
 </head>
 <body>
 
+    <!-- Main Navigation linking pages dynamically -->
     <nav>
         <a id="nav-home" class="active" onclick="switchPage('home')">Home</a>
         <a id="nav-about" onclick="switchPage('about')">About</a>
@@ -487,18 +508,22 @@
         </div>
     </header>
 
+    <!-- ================= HOME PAGE SECTION ================= -->
     <div id="page-home" class="container page-section active-section">
         <h2 class="section-title">Sample Work</h2>
         
+        <!-- Infinite Horizontal Video Slider Architecture -->
         <div class="carousel-wrapper">
             <button class="slider-btn prev" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
             
             <div class="carousel-container">
                 <div class="carousel-track" id="sliderTrack">
+                    <!-- Clone of Last Slide -->
                     <div class="carousel-slide">
                         <iframe id="slide-clone-last" src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                     
+                    <!-- Real Curated Slides -->
                     <div class="carousel-slide">
                         <iframe id="slide-video-1" src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
@@ -512,6 +537,7 @@
                         <iframe id="slide-video-4" src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                     
+                    <!-- Clone of First Slide -->
                     <div class="carousel-slide">
                         <iframe id="slide-clone-first" src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
@@ -528,15 +554,18 @@
         </section>
     </div>
 
+    <!-- ================= DEDICATED ABOUT SECTION ================= -->
     <div id="page-about" class="container page-section">
         <h2 class="section-title">About Me</h2>
         
         <div class="about-grid">
+            <!-- Profile Image Container -->
             <div class="about-image-container">
                 <img src="profile.jpg" alt="Yzhel Zapanta" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <i class="fas fa-user image-fallback" style="display: none;"></i>
             </div>
             
+            <!-- Bio text layout column -->
             <div class="about-content">
                 <h3>I edit for retention, pacing, and impact.</h3>
                 <p>Great video editing isn't just about putting clips together—it’s about managing human attention. I’m Yzhel, a video editor based in the Philippines, and I help creators and brands turn raw footage into sharp, high-retention stories that keep audiences hooked.</p>
@@ -551,6 +580,7 @@
         </section>
     </div>
 
+    <!-- ================= PORTFOLIO PAGE SECTION ================= -->
     <div id="page-portfolio" class="container page-section">
         <h2 class="section-title">My Portfolio Library</h2>
         
@@ -559,16 +589,18 @@
             <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">Shortform Shorts</button>
         </div>
 
+        <!-- Longform Library Wrapper -->
         <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe></div>
-            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/9hAjAjajMuJs" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe></div>
         </div>
 
+        <!-- Shortform Library Wrapper -->
         <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe></div>
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe></div>
@@ -598,6 +630,7 @@
         </div>
     </footer>
 
+    <!-- Inject the asynchronous script loader for official YouTube Iframe Player controls -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
