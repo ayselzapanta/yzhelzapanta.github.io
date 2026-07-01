@@ -4,137 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yzhel Zapanta | Video Editor Portfolio</title>
+    <!-- FontAwesome for clean social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #131a26;
+            --bg-color: #0b0c10;
             --accent-color: #00d2ff;
-            --accent-glow: rgba(0, 210, 255, 0.3);
+            --accent-glow: rgba(0, 210, 255, 0.2);
             --text-main: #ffffff;
-            --text-muted: #94a3b8;
+            --text-muted: #a4b3c6;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.6;
-            padding-bottom: 80px;
+            padding-bottom: 60px;
         }
 
-        /* Hero Section */
-        header {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 100px 24px 60px 24px;
-            text-align: center;
-        }
-
-        .tagline {
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 3px;
-            color: var(--accent-color);
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-        }
-
-        .location {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        /* Filter Controls */
-        .filter-container {
+        /* Top Navigation Menu to match reference */
+        nav {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 50px;
+            gap: 30px;
+            padding: 30px 0;
         }
 
-        .filter-btn {
-            background: transparent;
-            border: 1px solid #23354d;
+        nav a {
             color: var(--text-muted);
-            padding: 10px 24px;
-            font-size: 0.9rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             font-weight: 600;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            transition: color 0.3s;
         }
 
-        .filter-btn:hover, .filter-btn.active {
-            border-color: var(--accent-color);
+        nav a:hover, nav a.active {
             color: var(--text-main);
-            box-shadow: 0 0 15px var(--accent-glow);
-            background: rgba(0, 210, 255, 0.05);
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 4px;
         }
 
-        /* Main Portfolio Grid */
-        main {
-            max-width: 1100px;
-            margin: 0 auto;
+        /* Hero Header Structure from Main Page.jpg */
+        header {
+            max-width: 1000px;
+            margin: 40px auto 60px auto;
+            text-align: center;
             padding: 0 24px;
         }
 
-        .portfolio-grid {
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 35px;
+            letter-spacing: -1px;
+        }
+
+        /* Subtitle layout with horizontal rule lines */
+        .sub-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto 35px auto;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sub-bar .line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .sub-item {
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* Social Icons Grid Setup */
+        .socials-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .socials-row a {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .socials-row a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* Section Headings */
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 80px 0 40px 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* Responsive Grids tailored per section style */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .longform-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
+            margin-bottom: 60px;
         }
 
-        /* Specialized shortform vertical adjustments */
-        .portfolio-grid.shortform-active {
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        .shortform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
         }
 
-        .video-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #1e293b;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        .video-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-color);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow);
-        }
-
-        /* Responsive Video Container */
-        .video-wrapper {
+        /* Media Frame wrappers to hold standard & vertical native specs */
+        .video-box {
             position: relative;
             width: 100%;
-            overflow: hidden;
             background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Aspect ratio trick for horizontal standard vs vertical shorts */
-        .video-card.longform .video-wrapper {
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        .video-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px var(--accent-glow);
         }
 
-        .video-card.shortform .video-wrapper {
-            padding-top: 177.77%; /* 9:16 Aspect Ratio */
+        .longform-box {
+            padding-top: 56.25%; /* Fixed 16:9 */
         }
 
-        .video-wrapper iframe {
+        .shortform-box {
+            padding-top: 177.77%; /* True 9:16 Vertical aspect lock */
+        }
+
+        .video-box iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -143,233 +173,142 @@
             border: 0;
         }
 
-        .video-info {
-            padding: 20px;
-        }
-
-        .video-info h3 {
-            font-size: 1.15rem;
-            margin-bottom: 6px;
-            font-weight: 700;
-        }
-
-        .video-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Hook & Call To Action Section */
-        .cta-section {
-            max-width: 800px;
-            margin: 100px auto 40px auto;
-            text-align: center;
+        /* Footer Layout elements based on the bottom layout design */
+        footer {
+            margin-top: 120px;
+            border-top: 1px solid rgba(255,255,255,0.05);
             padding: 60px 24px;
-            background: linear-gradient(180deg, rgba(19, 26, 38, 0.5) 0%, rgba(11, 15, 25, 1) 100%);
-            border-radius: 24px;
-            border: 1px solid #1e293b;
+            text-align: center;
         }
 
-        .cta-section h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 12px;
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
             letter-spacing: -0.5px;
         }
 
-        .cta-section p {
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .footer-nav a {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: #000;
             text-decoration: none;
-            padding: 14px 36px;
-            font-weight: 700;
-            border-radius: 30px;
-            box-shadow: 0 4px 20px var(--accent-glow);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 0.85rem;
         }
 
-        .cta-btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 25px var(--accent-color);
+        .copyright {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            margin-top: 30px;
         }
 
-        /* Responsive fixes */
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .cta-section h2 { font-size: 1.8rem; }
+            h1 { font-size: 2.8rem; }
+            .sub-bar { flex-direction: column; gap: 8px; }
+            .sub-bar .line { display: none; }
+            .longform-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
+    <nav>
+        <a href="#" class="active">Home</a>
+        <a href="mailto:aysel.zapanta@gmail.com">About</a>
+        <a href="#portfolio">Portfolio</a>
+    </nav>
+
     <header>
-        <div class="tagline">Video Editor</div>
         <h1>Yzhel Zapanta</h1>
-        <div class="location">Based in Philippines • Available Globally</div>
+        
+        <div class="sub-bar">
+            <div class="line"></div>
+            <div class="sub-item">Video Editor</div>
+            <div class="line"></div>
+            <div class="sub-item">Based in Philippines</div>
+            <div class="line"></div>
+        </div>
+
+        <div class="socials-row">
+            <a href="https://www.instagram.com/itsayselzapanta/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@yzhelzapanta" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/yzhel-john-zapanta/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:aysel.zapanta@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
     </header>
 
-    <div class="filter-container">
-        <button class="filter-btn active" onclick="filterVideos('all')">Show All</button>
-        <button class="filter-btn" onclick="filterVideos('longform')">Longform</button>
-        <button class="filter-btn" onclick="filterVideos('shortform')">Shortform Shorts</button>
+    <div class="container" id="portfolio">
+        
+        <!-- LONGFORM PORTFOLIO SECTION -->
+        <h2 class="section-title">Popular Videos</h2>
+        <div class="longform-grid">
+            <div class="video-box longform-box">
+                <iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe>
+            </div>
+            <div class="video-box longform-box">
+                <iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe>
+            </div>
+            <div class="video-box longform-box">
+                <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe>
+            </div>
+            <div class="video-box longform-box">
+                <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe>
+            </div>
+            <div class="video-box longform-box">
+                <iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe>
+            </div>
+            <div class="video-box longform-box">
+                <iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe>
+            </div>
+            <div class="video-box longform-box">
+                <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- SHORTFORM PORTFOLIO SECTION -->
+        <h2 class="section-title">Shortform Reels</h2>
+        <div class="shortform-grid">
+            <div class="video-box shortform-box">
+                <iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe>
+            </div>
+            <div class="video-box shortform-box">
+                <iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe>
+            </div>
+            <div class="video-box shortform-box">
+                <iframe src="https://www.youtube.com/embed/ZjQM_mrmdh0" allowfullscreen></iframe>
+            </div>
+            <div class="video-box shortform-box">
+                <iframe src="https://www.youtube.com/embed/N4roc4I67Mg" allowfullscreen></iframe>
+            </div>
+        </div>
+
     </div>
 
-    <main>
-        <div id="grid" class="portfolio-grid">
-            
-            <!-- LONGFORM VIDEOS -->
-            <div class="video-card longform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Project Showcase 1</h3>
-                    <p>Longform video production, pacing adjustments, and seamless narrative editing.</p>
-                </div>
-            </div>
-
-            <div class="video-card longform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Project Showcase 2</h3>
-                    <p>Creative storytelling cuts optimized for audience engagement and retention.</p>
-                </div>
-            </div>
-
-            <div class="video-card longform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Project Showcase 3</h3>
-                    <p>Advanced color correction and high-fidelity sound mixing environments.</p>
-                </div>
-            </div>
-
-            <div class="video-card longform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Project Showcase 4</h3>
-                    <p>Cinematic sequence building focusing on dynamic rhythm and layout flow.</p>
-                </div>
-            </div>
-
-            <div class="video-card longform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Project Showcase 5</h3>
-                    <p>Comprehensive video assembly tailored perfectly to structural templates.</p>
-                </div>
-            </div>
-
-            <div class="video-card longform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Project Showcase 6</h3>
-                    <p>Visual style construction and stylized timing sequences.</p>
-                </div>
-            </div>
-
-            <div class="video-card longform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Project Showcase 7</h3>
-                    <p>Clean structural grading, visual multi-cam sync work, and audio dynamic tracks.</p>
-                </div>
-            </div>
-
-            <!-- SHORTFORM VIDEOS -->
-            <div class="video-card shortform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Shortform Reel 1</h3>
-                    <p>High-retention mobile short edit optimized with fast pacing and hooks.</p>
-                </div>
-            </div>
-
-            <div class="video-card shortform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Shortform Reel 2</h3>
-                    <p>Dynamic TikTok/Reels style featuring graphic transitions.</p>
-                </div>
-            </div>
-
-            <div class="video-card shortform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/ZjQM_mrmdh0" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Shortform Reel 3</h3>
-                    <p>Engaging social hook edit built to maximize viewer interaction loops.</p>
-                </div>
-            </div>
-
-            <div class="video-card shortform">
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/N4roc4I67Mg" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Shortform Reel 4</h3>
-                    <p>Snappy trend synchronization tracking audio beats flawlessly.</p>
-                </div>
-            </div>
-
+    <footer>
+        <div class="footer-logo">Create</div>
+        
+        <div class="footer-nav">
+            <a href="#">Home</a>
+            <a href="mailto:aysel.zapanta@gmail.com">About</a>
+            <a href="#portfolio">Portfolio</a>
         </div>
-    </main>
 
-    <section class="cta-section">
-        <h2>Take your brand to the next level</h2>
-        <p>Looking for a professional editor to turn raw footage into high-converting content?</p>
-        <a href="mailto:aysel.zapanta@gmail.com" class="cta-btn">Get In Touch</a>
-    </section>
+        <div class="socials-row">
+            <a href="https://www.instagram.com/itsayselzapanta/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@yzhelzapanta" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/yzhel-john-zapanta/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:aysel.zapanta@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
 
-    <script>
-        function filterVideos(category) {
-            // Update active state on buttons
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        <div class="copyright">
+            &copy; 2026 Yzhel Zapanta. All Rights Reserved.
+        </div>
+    </footer>
 
-            const grid = document.getElementById('grid');
-            const cards = document.querySelectorAll('.video-card');
-
-            // Adjust grid spacing behavior dynamically based on vertical shorts vs horizontal videos
-            if (category === 'shortform') {
-                grid.classList.add('shortform-active');
-            } else {
-                grid.classList.remove('shortform-active');
-            }
-
-            // Hide or show matching cards
-            cards.forEach(card => {
-                if (category === 'all' || card.classList.contains(category)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    </script>
 </body>
 </html>
