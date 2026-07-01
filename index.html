@@ -291,53 +291,65 @@
         .slider-btn.next { right: -70px; }
 
 
-        /* ================= NEW PORTFOLIO LAYOUT ARCHITECTURE ================= */
-        .portfolio-group {
-            margin-bottom: 70px;
+        /* ================= PORTFOLIO SECTIONS & TAB STYLING ================= */
+        .portfolio-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 45px;
         }
 
-        .portfolio-group-title {
-            font-size: 1.6rem;
+        .tab-btn {
+            background: transparent;
+            border: 1px solid #23354d;
+            color: var(--text-muted);
+            padding: 12px 30px;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
             font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            border-color: var(--accent-color);
             color: var(--text-main);
-            margin-bottom: 25px;
-            letter-spacing: -0.5px;
-            position: relative;
-            display: inline-block;
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(0, 210, 255, 0.05);
         }
 
-        /* Premium line indicator for sections inspired by theme design */
-        .portfolio-group-title::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 35px;
-            height: 2px;
-            background-color: var(--accent-color);
-            box-shadow: 0 0 8px var(--accent-color);
+        .portfolio-subgrid {
+            display: none;
+            max-width: 1050px; /* Reduced container footprint to shrink active sizing matching Reference Design */
+            margin: 0 auto;
         }
 
-        /* Longform 16:9 Display Grid setup (3 Column Array layout) */
-        .grid-longform {
+        .portfolio-subgrid.active-subgrid {
             display: grid;
+        }
+
+        /* Fixed structural sizing to match Portfolio Page.jpg perfectly */
+        .longform-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: 25px;
         }
 
-        /* Shortform Vertical 9:16 Display Grid setup (4-5 Column Array layout) */
-        .grid-shortform {
-            display: grid;
+        .shortform-grid {
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
+            max-width: 950px; /* Brings vertical items closer together structurally */
         }
 
+        /* HD Crystal-Clear Thumbnail Wrapper Architecture */
         .video-box {
             position: relative;
             width: 100%;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
+            cursor: pointer;
             border: 1px solid rgba(255, 255, 255, 0.03);
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
@@ -349,17 +361,55 @@
             box-shadow: 0 0 25px var(--accent-glow);
         }
 
-        /* Structural aspect padding logic */
-        .longform-box { padding-top: 56.25%; } /* Perfect 16:9 Aspect Ratio Box */
-        .shortform-box { padding-top: 177.77%; } /* Perfect 9:16 Smartphone Aspect Ratio Box */
+        .longform-box { padding-top: 56.25%; } 
+        .shortform-box { padding-top: 177.77%; } 
 
-        .video-box iframe {
+        .video-box iframe, .thumb-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             border: 0;
+        }
+
+        /* HD Overlay States */
+        .thumb-overlay {
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Native YouTube play button mimic styling */
+        .play-overlay-btn {
+            width: 68px;
+            height: 48px;
+            background: rgba(33, 33, 33, 0.8);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.4rem;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .video-box:hover .play-overlay-btn {
+            background: #ff0000;
+            transform: scale(1.1);
+        }
+
+        /* Shorts specific icon adjustment */
+        .shortform-box .play-overlay-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            padding-left: 4px;
         }
 
         /* CTA Section */
@@ -443,20 +493,20 @@
             margin-top: 30px;
         }
 
-        /* Mobile Adjustments & Dynamic Column Breakpoints */
+        /* Mobile Adjustments */
         @media (max-width: 992px) {
             .slider-btn.prev { left: 15px; }
             .slider-btn.next { right: 15px; }
-            .grid-longform { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-            .grid-shortform { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+            .longform-grid { grid-template-columns: repeat(2, 1fr); }
+            .shortform-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (max-width: 768px) {
             h1 { font-size: 2.8rem; }
             .sub-bar { flex-direction: column; gap: 8px; }
             .sub-bar .line { display: none; }
-            .grid-longform { grid-template-columns: 1fr; }
-            .grid-shortform { grid-template-columns: repeat(2, 1fr); }
+            .longform-grid { grid-template-columns: 1fr; }
+            .shortform-grid { grid-template-columns: repeat(2, 1fr); }
             .about-grid { flex-direction: column; padding: 30px 20px; gap: 30px; }
             .about-image-container { flex: 0 0 280px; width: 100%; height: 320px; }
             .about-content h3 { font-size: 1.4rem; }
@@ -567,28 +617,72 @@
     <div id="page-portfolio" class="container page-section">
         <h2 class="section-title">My Portfolio Library</h2>
         
-        <!-- Longform Row Group (16:9 Grid Layout Array) -->
-        <div class="portfolio-group">
-            <h3 class="portfolio-group-title">Long Form Videos</h3>
-            <div class="grid-longform">
-                <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe></div>
-                <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe></div>
-                <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe></div>
-                <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe></div>
-                <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe></div>
-                <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe></div>
-                <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe></div>
+        <!-- Renamed Tabs to LONGFORM and SHORTFORM natively -->
+        <div class="portfolio-tabs">
+            <button id="tab-long" class="tab-btn active" onclick="switchPortfolioTab('longform')">LONGFORM</button>
+            <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">SHORTFORM</button>
+        </div>
+
+        <!-- Longform Library Wrapper with High-Definition Native Thumbnails -->
+        <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
+            <div class="video-box longform-box" onclick="loadVideo(this, 'FZu5jqHczI0')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/FZu5jqHczI0/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box longform-box" onclick="loadVideo(this, 'pt1yy_0cCIE')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/pt1yy_0cCIE/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box longform-box" onclick="loadVideo(this, 'Ft8f1kzJitU')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/Ft8f1kzJitU/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box longform-box" onclick="loadVideo(this, 'Ec-gnw4KmgE')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/Ec-gnw4KmgE/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box longform-box" onclick="loadVideo(this, 'syUndIx5F3M')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/syUndIx5F3M/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box longform-box" onclick="loadVideo(this, '9hAjujgMuJs')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/9hAjujgMuJs/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box longform-box" onclick="loadVideo(this, 'cSXxWPrZIi8')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/cSXxWPrZIi8/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
             </div>
         </div>
 
-        <!-- Shortform Row Group (9:16 Grid Layout Array) -->
-        <div class="portfolio-group">
-            <h3 class="portfolio-group-title">Short Form Videos</h3>
-            <div class="grid-shortform">
-                <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe></div>
-                <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe></div>
-                <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/ZjQM_mrmdh0" allowfullscreen></iframe></div>
-                <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/N4roc4I67Mg" allowfullscreen></iframe></div>
+        <!-- Shortform Library Wrapper with High-Definition Native Thumbnails -->
+        <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
+            <div class="video-box shortform-box" onclick="loadVideo(this, 'aeEkcQucT1g')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/aeEkcQucT1g/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box shortform-box" onclick="loadVideo(this, 'QukdQKmrKaQ')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/QukdQKmrKaQ/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box shortform-box" onclick="loadVideo(this, 'ZjQM_mrmdh0')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/ZjQM_mrmdh0/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
+            </div>
+            <div class="video-box shortform-box" onclick="loadVideo(this, 'N4roc4I67Mg')">
+                <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/N4roc4I67Mg/maxresdefault.jpg');">
+                    <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
+                </div>
             </div>
         </div>
     </div>
@@ -647,6 +741,9 @@
                     }
                 }
             }
+            // Clear any active running iframe injectors inside our portfolio grid elements
+            document.querySelectorAll('.video-box iframe').forEach(iframe => iframe.remove());
+            document.querySelectorAll('.thumb-overlay').forEach(overlay => overlay.style.opacity = '1');
         }
 
         track.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -676,6 +773,21 @@
             }
         });
 
+        // Dynamic High-Definition Video Injector Loader
+        function loadVideo(element, videoId) {
+            // Find overlay element inside selected container box
+            const overlay = element.querySelector('.thumb-overlay');
+            overlay.style.opacity = '0';
+            
+            setTimeout(() => {
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`);
+                iframe.setAttribute('allowfullscreen', '1');
+                iframe.setAttribute('allow', 'autoplay; encrypted-media');
+                element.appendChild(iframe);
+            }, 200);
+        }
+
         // Dynamic multi-page template manager
         function switchPage(pageTarget) {
             pauseAllVideos();
@@ -702,6 +814,22 @@
                 document.getElementById('page-portfolio').classList.add('active-section');
             }
             window.scrollTo(0, 0);
+        }
+
+        // Subtab management inside the Portfolio view
+        function switchPortfolioTab(type) {
+            document.getElementById('tab-long').classList.remove('active');
+            document.getElementById('tab-short').classList.remove('active');
+            document.getElementById('subgrid-longform').classList.remove('active-subgrid');
+            document.getElementById('subgrid-shortform').classList.remove('active-subgrid');
+
+            if(type === 'longform') {
+                document.getElementById('tab-long').classList.add('active');
+                document.getElementById('subgrid-longform').classList.add('active-subgrid');
+            } else if(type === 'shortform') {
+                document.getElementById('tab-short').classList.add('active');
+                document.getElementById('subgrid-shortform').classList.add('active-subgrid');
+            }
         }
     </script>
 </body>
