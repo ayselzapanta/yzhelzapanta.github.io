@@ -3,49 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Video Editor Portfolio</title>
+    <title>Yzhel Zapanta | Video Editor Portfolio</title>
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 40px 20px;
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131a26;
+            --accent-color: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.3);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
         }
-        .container {
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        /* Hero Section */
+        header {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 24px 60px 24px;
+            text-align: center;
+        }
+
+        .tagline {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .location {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Filter Controls */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 50px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #23354d;
+            color: var(--text-muted);
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent-color);
+            color: var(--text-main);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        /* Main Portfolio Grid */
+        main {
             max-width: 1100px;
             margin: 0 auto;
+            padding: 0 24px;
         }
-        header {
-            text-align: center;
-            padding: 40px 0;
-        }
-        h1 { font-size: 2.5rem; margin-bottom: 10px; letter-spacing: -1px; }
-        p.subtitle { color: #888888; font-size: 1.2rem; margin-top: 0; }
-        
-        /* The Video Grid */
-        .video-grid {
+
+        .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 30px;
-            margin-top: 50px;
         }
-        @media (max-width: 600px) {
-            .video-grid { grid-template-columns: 1fr; }
+
+        /* Specialized shortform vertical adjustments */
+        .portfolio-grid.shortform-active {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
         }
+
         .video-card {
-            background: #1e1e1e;
-            border-radius: 8px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #1e293b;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .video-container {
+
+        .video-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow);
+        }
+
+        /* Responsive Video Container */
+        .video-wrapper {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
+            width: 100%;
             overflow: hidden;
+            background: #000;
         }
-        .video-container iframe {
+
+        /* Aspect ratio trick for horizontal standard vs vertical shorts */
+        .video-card.longform .video-wrapper {
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .video-card.shortform .video-wrapper {
+            padding-top: 177.77%; /* 9:16 Aspect Ratio */
+        }
+
+        .video-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -53,48 +142,234 @@
             height: 100%;
             border: 0;
         }
-        .video-info { padding: 20px; }
-        .video-info h3 { margin: 0 0 10px 0; font-size: 1.3rem; }
-        .video-info p { color: #aaa; margin: 0; font-size: 0.95rem; line-height: 1.4; }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-info h3 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .video-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Hook & Call To Action Section */
+        .cta-section {
+            max-width: 800px;
+            margin: 100px auto 40px auto;
+            text-align: center;
+            padding: 60px 24px;
+            background: linear-gradient(180deg, rgba(19, 26, 38, 0.5) 0%, rgba(11, 15, 25, 1) 100%);
+            border-radius: 24px;
+            border: 1px solid #1e293b;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #000;
+            text-decoration: none;
+            padding: 14px 36px;
+            font-weight: 700;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 25px var(--accent-color);
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .cta-section h2 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>YOUR NAME</h1>
-            <p class="subtitle">Professional Video Editor & Colorist</p>
-        </header>
+    <header>
+        <div class="tagline">Video Editor</div>
+        <h1>Yzhel Zapanta</h1>
+        <div class="location">Based in Philippines • Available Globally</div>
+    </header>
 
-        <main class="video-grid">
-
-            <!-- VIDEO PROJECT 1 START -->
-            <div class="video-card">
-                <div class="video-container">
-                    <!-- Replace the ID below with your actual unlisted YouTube Video ID -->
-                    <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" title="Project 1 Reel" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Commercial Showreel</h3>
-                    <p>Edited and color graded using DaVinci Resolve. Focus on snappy pacing and dynamic audio design.</p>
-                </div>
-            </div>
-            <!-- VIDEO PROJECT 1 END -->
-
-            <!-- VIDEO PROJECT 2 START -->
-            <div class="video-card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" title="Project 2 Reel" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <h3>Social Media Promo Campaign</h3>
-                    <p>High-retention editing style targeting TikTok and Instagram Reels format, focusing on visual hooks within the first 3 seconds.</p>
-                </div>
-            </div>
-            <!-- VIDEO PROJECT 2 END -->
-
-        </main>
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterVideos('all')">Show All</button>
+        <button class="filter-btn" onclick="filterVideos('longform')">Longform</button>
+        <button class="filter-btn" onclick="filterVideos('shortform')">Shortform Shorts</button>
     </div>
 
+    <main>
+        <div id="grid" class="portfolio-grid">
+            
+            <!-- LONGFORM VIDEOS -->
+            <div class="video-card longform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Project Showcase 1</h3>
+                    <p>Longform video production, pacing adjustments, and seamless narrative editing.</p>
+                </div>
+            </div>
+
+            <div class="video-card longform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Project Showcase 2</h3>
+                    <p>Creative storytelling cuts optimized for audience engagement and retention.</p>
+                </div>
+            </div>
+
+            <div class="video-card longform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Project Showcase 3</h3>
+                    <p>Advanced color correction and high-fidelity sound mixing environments.</p>
+                </div>
+            </div>
+
+            <div class="video-card longform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Project Showcase 4</h3>
+                    <p>Cinematic sequence building focusing on dynamic rhythm and layout flow.</p>
+                </div>
+            </div>
+
+            <div class="video-card longform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Project Showcase 5</h3>
+                    <p>Comprehensive video assembly tailored perfectly to structural templates.</p>
+                </div>
+            </div>
+
+            <div class="video-card longform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Project Showcase 6</h3>
+                    <p>Visual style construction and stylized timing sequences.</p>
+                </div>
+            </div>
+
+            <div class="video-card longform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Project Showcase 7</h3>
+                    <p>Clean structural grading, visual multi-cam sync work, and audio dynamic tracks.</p>
+                </div>
+            </div>
+
+            <!-- SHORTFORM VIDEOS -->
+            <div class="video-card shortform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Shortform Reel 1</h3>
+                    <p>High-retention mobile short edit optimized with fast pacing and hooks.</p>
+                </div>
+            </div>
+
+            <div class="video-card shortform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Shortform Reel 2</h3>
+                    <p>Dynamic TikTok/Reels style featuring graphic transitions.</p>
+                </div>
+            </div>
+
+            <div class="video-card shortform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/ZjQM_mrmdh0" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Shortform Reel 3</h3>
+                    <p>Engaging social hook edit built to maximize viewer interaction loops.</p>
+                </div>
+            </div>
+
+            <div class="video-card shortform">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/N4roc4I67Mg" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>Shortform Reel 4</h3>
+                    <p>Snappy trend synchronization tracking audio beats flawlessly.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <section class="cta-section">
+        <h2>Take your brand to the next level</h2>
+        <p>Looking for a professional editor to turn raw footage into high-converting content?</p>
+        <a href="mailto:aysel.zapanta@gmail.com" class="cta-btn">Get In Touch</a>
+    </section>
+
+    <script>
+        function filterVideos(category) {
+            // Update active state on buttons
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const grid = document.getElementById('grid');
+            const cards = document.querySelectorAll('.video-card');
+
+            // Adjust grid spacing behavior dynamically based on vertical shorts vs horizontal videos
+            if (category === 'shortform') {
+                grid.classList.add('shortform-active');
+            } else {
+                grid.classList.remove('shortform-active');
+            }
+
+            // Hide or show matching cards
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
