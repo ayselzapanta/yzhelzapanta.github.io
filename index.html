@@ -1,17 +1,519 @@
-// Infinite Loop Slider Control Logic
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yzhel Zapanta | Video Editor Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --accent-color: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.2);
+            --text-main: #ffffff;
+            --text-muted: #a4b3c6;
+            --card-bg: #11141a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 60px;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation Menu */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 30px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(11, 12, 16, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+            border-bottom-color: var(--text-main);
+        }
+
+        /* Hero Header Structure */
+        header {
+            max-width: 1000px;
+            margin: 40px auto 40px auto;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 35px;
+            letter-spacing: -1px;
+        }
+
+        /* Subtitle layout with horizontal rule lines */
+        .sub-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto 35px auto;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sub-bar .line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .sub-item {
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* Social Icons Grid Setup */
+        .socials-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .socials-row a {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .socials-row a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* Section Architecture */
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active-section {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 40px 0 30px 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* Responsive Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* ================= SEAMLESS INFINITE SLIDER WITH HOVER EFFECT ================= */
+        .carousel-wrapper {
+            position: relative;
+            max-width: 850px;
+            margin: 0 auto 50px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-container {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Triggers container glow and subtle scale up when hovering */
+        .carousel-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .carousel-track {
+            display: flex;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+            padding-top: 56.25%; /* Clean 16:9 Aspect Ratio */
+            background: #000;
+        }
+
+        .carousel-slide iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Slider Navigation Buttons */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(17, 20, 26, 0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+
+        .slider-btn.prev { left: -70px; }
+        .slider-btn.next { right: -70px; }
+
+        /* Portfolio Specific Toggle Buttons */
+        .portfolio-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid #23354d;
+            color: var(--text-muted);
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--text-main);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        .portfolio-subgrid {
+            display: none;
+        }
+
+        .portfolio-subgrid.active-subgrid {
+            display: grid;
+        }
+
+        .longform-grid {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .shortform-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        /* Portfolio standard view video box items */
+        .video-box {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        .longform-box { padding-top: 56.25%; }
+        .shortform-box { padding-top: 177.77%; }
+
+        .video-box iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* CTA Section to mimic reference layout */
+        .cta-section {
+            max-width: 800px;
+            margin: 60px auto 20px auto;
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            padding: 12px 32px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Footer Layout elements */
+        footer {
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .footer-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .footer-nav a:hover {
+            color: var(--text-main);
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+            margin-top: 30px;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 992px) {
+            .slider-btn.prev { left: 15px; }
+            .slider-btn.next { right: 15px; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            .sub-bar { flex-direction: column; gap: 8px; }
+            .sub-bar .line { display: none; }
+            .longform-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a id="nav-home" class="active" onclick="switchPage('home')">Home</a>
+        <a id="nav-about" href="mailto:aysel.zapanta@gmail.com">About</a>
+        <a id="nav-portfolio" onclick="switchPage('portfolio')">Portfolio</a>
+    </nav>
+
+    <header>
+        <h1>Yzhel Zapanta</h1>
+        
+        <div class="sub-bar">
+            <div class="line"></div>
+            <div class="sub-item">Video Editor</div>
+            <div class="line"></div>
+            <div class="sub-item">Based in Philippines</div>
+            <div class="line"></div>
+        </div>
+
+        <div class="socials-row">
+            <a href="https://www.instagram.com/itsayselzapanta/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@yzhelzapanta" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/yzhel-john-zapanta/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:aysel.zapanta@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+    </header>
+
+    <div id="page-home" class="container page-section active-section">
+        <h2 class="section-title">Sample Work</h2>
+        
+        <div class="carousel-wrapper">
+            <button class="slider-btn prev" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
+            
+            <div class="carousel-container">
+                <div class="carousel-track" id="sliderTrack">
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/9hAjujgMuJs?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <button class="slider-btn next" onclick="moveSlider(1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <section class="cta-section">
+            <p>Take your brand to the next level</p>
+            <h2>Have Some Questions?<br>Get In Touch</h2>
+            <a href="mailto:aysel.zapanta@gmail.com?subject=Inquiry%20-%20Video%20Editing%20Services" class="cta-btn">Book a Call</a>
+        </section>
+    </div>
+
+    <div id="page-portfolio" class="container page-section">
+        <h2 class="section-title">My Portfolio Library</h2>
+        
+        <div class="portfolio-tabs">
+            <button id="tab-long" class="tab-btn active" onclick="switchPortfolioTab('longform')">Longform Work</button>
+            <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">Shortform Shorts</button>
+        </div>
+
+        <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe></div>
+        </div>
+
+        <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe></div>
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe></div>
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/ZjQM_mrmdh0" allowfullscreen></iframe></div>
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/N4roc4I67Mg" allowfullscreen></iframe></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">Create</div>
+        
+        <div class="footer-nav">
+            <a onclick="switchPage('home')">Home</a>
+            <a href="mailto:aysel.zapanta@gmail.com">About</a>
+            <a onclick="switchPage('portfolio')">Portfolio</a>
+        </div>
+
+        <div class="socials-row">
+            <a href="https://www.instagram.com/itsayselzapanta/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@yzhelzapanta" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/yzhel-john-zapanta/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:aysel.zapanta@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 Yzhel Zapanta. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Infinite Loop Slider Control Logic
         const track = document.getElementById('sliderTrack');
-        const slides = document.querySelectorAll('.carousel-slide');
         
         let currentSlide = 1; // Starts at 1 because index 0 is the cloned last slide
         const totalRealSlides = 4;
-        let isMoving = false; // Safe click guard flag
+        let isMoving = false; // Safe animation click lock flag
         
-        // Initialize position to look at first real slide
+        // Initialize layout position to target first real slide
         track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
         function moveSlider(direction) {
-            // If an animation is already running, ignore incoming clicks
-            if (isMoving) return; 
+            if (isMoving) return; // Prevent double click glitches
             
             isMoving = true;
             currentSlide += direction;
@@ -20,17 +522,17 @@
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
-        // Listen for the CSS transition to fully finish before handling loop resets
+        // Listen for the CSS sliding animation to completely end before adjusting loop positions
         track.addEventListener('transitionend', () => {
-            isMoving = false; // Release the click lock
+            isMoving = false; // Free up click mechanics
 
             if (currentSlide === 0) {
-                // Instantly teleport to the true end slide counterpart
+                // Instant seamless teleport to matching end index slide
                 track.style.transition = "none";
                 currentSlide = totalRealSlides;
                 track.style.transform = `translateX(-${currentSlide * 100}%)`;
             } else if (currentSlide === totalRealSlides + 1) {
-                // Instantly teleport to the true beginning slide counterpart
+                // Instant seamless teleport to matching starting index slide
                 track.style.transition = "none";
                 currentSlide = 1;
                 track.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -69,3 +571,6 @@
                 document.getElementById('subgrid-shortform').classList.add('active-subgrid');
             }
         }
+    </script>
+</body>
+</html>
