@@ -40,23 +40,68 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* PREMIUM SCROLL ANIMATION EFFECTS */
-        .reveal-element {
+        /* ================= DYNAMIC ANIMATION VARIETIES ================= */
+        .reveal-base {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform, opacity;
+            will-change: transform, opacity, filter;
+            transition-duration: 0.85s;
+            transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .reveal-element.active-reveal {
+        /* 1. Fade & Blur (Great for Main Hero/Headers) */
+        .reveal-fade-blur {
+            filter: blur(10px);
+            transition-property: opacity, filter;
+        }
+        .reveal-fade-blur.active-reveal {
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        /* 2. Classic Slide Up (Great for clean section titles) */
+        .reveal-slide-up {
+            transform: translateY(40px);
+            transition-property: opacity, transform;
+        }
+        .reveal-slide-up.active-reveal {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Staggered delays for a sequential feel */
+        /* 3. Scale & Fade Entry (Perfect for Cards & Featured containers) */
+        .reveal-scale-in {
+            transform: scale(0.95);
+            transition-property: opacity, transform;
+        }
+        .reveal-scale-in.active-reveal {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 4. Directional Slide-Ins (Excellent for breaking up grids dynamically) */
+        .reveal-slide-left {
+            transform: translateX(-50px);
+            transition-property: opacity, transform;
+        }
+        .reveal-slide-left.active-reveal {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-slide-right {
+            transform: translateX(50px);
+            transition-property: opacity, transform;
+        }
+        .reveal-slide-right.active-reveal {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Adaptive sequential animation delays */
         .delay-1 { transition-delay: 100ms; }
         .delay-2 { transition-delay: 200ms; }
         .delay-3 { transition-delay: 300ms; }
+
 
         /* Top Navigation Menu */
         nav {
@@ -287,7 +332,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
-            z-index: 10;
+ z-index: 10;
             transition: all 0.3s ease;
         }
 
@@ -534,7 +579,8 @@
         <a id="nav-portfolio" onclick="switchPage('portfolio')">Portfolio</a>
     </nav>
 
-    <header class="reveal-element">
+    <!-- Header uses premium Blur + Fade Entry -->
+    <header class="reveal-base reveal-fade-blur">
         <h1>Yzhel Zapanta</h1>
         <div class="sub-bar">
             <div class="line"></div>
@@ -554,9 +600,10 @@
 
     <!-- ================= HOME PAGE SECTION ================= -->
     <div id="page-home" class="container page-section active-section">
-        <h2 class="section-title reveal-element">Sample Work</h2>
+        <h2 class="section-title reveal-base reveal-slide-up">Sample Work</h2>
         
-        <div class="carousel-wrapper reveal-element delay-1">
+        <!-- Slider Box pops up with elegant scale entry -->
+        <div class="carousel-wrapper reveal-base reveal-scale-in delay-1">
             <button class="slider-btn prev" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
             
             <div class="carousel-container">
@@ -585,7 +632,7 @@
             <button class="slider-btn next" onclick="moveSlider(1)"><i class="fas fa-chevron-right"></i></button>
         </div>
 
-        <section class="cta-section reveal-element delay-2">
+        <section class="cta-section reveal-base reveal-slide-up delay-2">
             <p>Take your brand to the next level</p>
             <h2>Have Some Questions?<br>Get In Touch</h2>
             <a href="mailto:aysel.zapanta@gmail.com?subject=Inquiry%20-%20Video%20Editing%20Services" class="cta-btn">Book a Call</a>
@@ -594,8 +641,10 @@
 
     <!-- ================= DEDICATED ABOUT SECTION ================= -->
     <div id="page-about" class="container page-section">
-        <h2 class="section-title reveal-element">About Me</h2>
-        <div class="about-grid reveal-element delay-1">
+        <h2 class="section-title reveal-base reveal-slide-up">About Me</h2>
+        
+        <!-- About Profile Box scales in gently -->
+        <div class="about-grid reveal-base reveal-scale-in delay-1">
             <div class="about-image-container">
                 <img src="profile.jpg" alt="Yzhel Zapanta" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <i class="fas fa-user image-fallback" style="display: none;"></i>
@@ -610,46 +659,46 @@
 
     <!-- ================= PORTFOLIO PAGE SECTION ================= -->
     <div id="page-portfolio" class="container page-section">
-        <h2 class="section-title reveal-element">My Portfolio Library</h2>
+        <h2 class="section-title reveal-base reveal-slide-up">My Portfolio Library</h2>
         
-        <div class="portfolio-tabs reveal-element delay-1">
+        <div class="portfolio-tabs reveal-base reveal-fade-blur delay-1">
             <button id="tab-long" class="tab-btn active" onclick="switchPortfolioTab('longform')">LONGFORM</button>
             <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">SHORTFORM</button>
         </div>
 
-        <!-- Longform Library Wrapper -->
+        <!-- Longform Library Wrapper with Alternating Left/Right Slide-in animations -->
         <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
-            <div class="video-box longform-box reveal-element delay-1" onclick="handleGridPlayback(this, 'FZu5jqHczI0')">
+            <div class="video-box longform-box reveal-base reveal-slide-left delay-1" onclick="handleGridPlayback(this, 'FZu5jqHczI0')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/FZu5jqHczI0/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box reveal-element delay-2" onclick="handleGridPlayback(this, 'pt1yy_0cCIE')">
+            <div class="video-box longform-box reveal-base reveal-slide-up delay-2" onclick="handleGridPlayback(this, 'pt1yy_0cCIE')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/pt1yy_0cCIE/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box reveal-element delay-3" onclick="handleGridPlayback(this, 'Ft8f1kzJitU')">
+            <div class="video-box longform-box reveal-base reveal-slide-right delay-3" onclick="handleGridPlayback(this, 'Ft8f1kzJitU')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/Ft8f1kzJitU/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box reveal-element" onclick="handleGridPlayback(this, 'Ec-gnw4KmgE')">
+            <div class="video-box longform-box reveal-base reveal-slide-left" onclick="handleGridPlayback(this, 'Ec-gnw4KmgE')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/Ec-gnw4KmgE/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box reveal-element delay-1" onclick="handleGridPlayback(this, 'syUndIx5F3M')">
+            <div class="video-box longform-box reveal-base reveal-slide-up delay-1" onclick="handleGridPlayback(this, 'syUndIx5F3M')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/syUndIx5F3M/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box reveal-element delay-2" onclick="handleGridPlayback(this, '9hAjujgMuJs')">
+            <div class="video-box longform-box reveal-base reveal-slide-right delay-2" onclick="handleGridPlayback(this, '9hAjujgMuJs')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/9hAjujgMuJs/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box reveal-element delay-3" onclick="handleGridPlayback(this, 'cSXxWPrZIi8')">
+            <div class="video-box longform-box reveal-base reveal-slide-left delay-3" onclick="handleGridPlayback(this, 'cSXxWPrZIi8')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/cSXxWPrZIi8/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
@@ -658,22 +707,22 @@
 
         <!-- Shortform Library Wrapper -->
         <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
-            <div class="video-box shortform-box reveal-element delay-1" onclick="handleGridPlayback(this, 'aeEkcQucT1g')">
+            <div class="video-box shortform-box reveal-base reveal-slide-left delay-1" onclick="handleGridPlayback(this, 'aeEkcQucT1g')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/aeEkcQucT1g/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box shortform-box reveal-element delay-2" onclick="handleGridPlayback(this, 'QukdQKmrKaQ')">
+            <div class="video-box shortform-box reveal-base reveal-slide-up delay-2" onclick="handleGridPlayback(this, 'QukdQKmrKaQ')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/QukdQKmrKaQ/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box shortform-box reveal-element delay-3" onclick="handleGridPlayback(this, 'ZjQM_mrmdh0')">
+            <div class="video-box shortform-box reveal-base reveal-slide-up delay-3" onclick="handleGridPlayback(this, 'ZjQM_mrmdh0')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/ZjQM_mrmdh0/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box shortform-box reveal-element" onclick="handleGridPlayback(this, 'N4roc4I67Mg')">
+            <div class="video-box shortform-box reveal-base reveal-slide-right" onclick="handleGridPlayback(this, 'N4roc4I67Mg')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/N4roc4I67Mg/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
@@ -770,13 +819,12 @@
             element.appendChild(iframe);
         }
 
-        // RE-TRIGGER REVEAL SYSTEM ON TAB/PAGE NAVIGATION
+        // RE-TRIGGER VARIETY REVEAL SYSTEM ON NAV
         function refreshScrollAnimations() {
-            const elements = document.querySelectorAll('.reveal-element');
+            const elements = document.querySelectorAll('.reveal-base');
             elements.forEach(el => {
-                // Instantly trigger view-level bounds check
                 const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 30) {
+                if (rect.top < window.innerHeight - 20) {
                     el.classList.add('active-reveal');
                 } else {
                     el.classList.remove('active-reveal');
@@ -805,7 +853,7 @@
                 document.getElementById('page-portfolio').classList.add('active-section');
             }
             window.scrollTo(0, 0);
-            setTimeout(refreshScrollAnimations, 50);
+            setTimeout(refreshScrollAnimations, 60);
         }
 
         function switchPortfolioTab(type) {
@@ -822,14 +870,14 @@
                 document.getElementById('tab-short').classList.add('active');
                 document.getElementById('subgrid-shortform').classList.add('active-subgrid');
             }
-            setTimeout(refreshScrollAnimations, 50);
+            setTimeout(refreshScrollAnimations, 60);
         }
 
-        // SCROLL REVEAL INTERSECTION OBSERVER CORE ENGINE
+        // ROBUST MULTI-VARIETY INTERSECTION OBSERVER CORE ENGINE
         document.addEventListener("DOMContentLoaded", () => {
             const revealOptions = {
-                threshold: 0.05,
-                rootMargin: "0px 0px -40px 0px"
+                threshold: 0.02,
+                rootMargin: "0px 0px -20px 0px"
             };
 
             const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -840,12 +888,11 @@
                 });
             }, revealOptions);
 
-            document.querySelectorAll('.reveal-element').forEach(element => {
+            document.querySelectorAll('.reveal-base').forEach(element => {
                 revealObserver.observe(element);
             });
             
-            // Initial execution pass
-            setTimeout(refreshScrollAnimations, 100);
+            setTimeout(refreshScrollAnimations, 150);
         });
     </script>
 </body>
