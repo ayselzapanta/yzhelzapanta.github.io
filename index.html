@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yzhel Zapanta | Video Editor Portfolio</title>
-    <!-- FontAwesome for clean social media icons -->
+    <!-- FontAwesome for clean social media and slider icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -28,6 +28,7 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             padding-bottom: 60px;
+            overflow-x: hidden;
         }
 
         /* Top Navigation Menu */
@@ -64,7 +65,7 @@
         /* Hero Header Structure */
         header {
             max-width: 1000px;
-            margin: 40px auto 60px auto;
+            margin: 40px auto 40px auto;
             text-align: center;
             padding: 0 24px;
         }
@@ -133,8 +134,89 @@
             text-align: center;
             font-size: 2.2rem;
             font-weight: 700;
-            margin: 60px 0 40px 0;
+            margin: 40px 0 30px 0;
             letter-spacing: -0.5px;
+        }
+
+        /* Responsive Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* ================= PREMIUM CAROUSEL LAYOUT (From your sketch) ================= */
+        .carousel-wrapper {
+            position: relative;
+            max-width: 850px;
+            margin: 0 auto 50px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-container {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+            padding-top: 56.25%; /* Clean 16:9 Aspect Ratio */
+            background: #000;
+        }
+
+        .carousel-slide iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Slider Navigation Buttons styled matching back/forth sketch logic */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(17, 20, 26, 0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+
+        .slider-btn.prev {
+            left: -70px;
+        }
+
+        .slider-btn.next {
+            right: -70px;
         }
 
         /* Portfolio Specific Toggle Buttons */
@@ -172,13 +254,6 @@
             display: grid;
         }
 
-        /* Responsive Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
-        }
-
         .longform-grid {
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
@@ -190,7 +265,7 @@
             gap: 25px;
         }
 
-        /* Media Frame wrappers */
+        /* Standard video element boxes for interior subgrids */
         .video-box {
             position: relative;
             width: 100%;
@@ -207,11 +282,11 @@
         }
 
         .longform-box {
-            padding-top: 56.25%; /* Fixed 16:9 widescreen */
+            padding-top: 56.25%;
         }
 
         .shortform-box {
-            padding-top: 177.77%; /* True 9:16 Vertical aspect lock */
+            padding-top: 177.77%;
         }
 
         .video-box iframe {
@@ -223,10 +298,10 @@
             border: 0;
         }
 
-        /* CTA Section to mimic reference */
+        /* CTA Section to mimic reference layout */
         .cta-section {
             max-width: 800px;
-            margin: 90px auto 40px auto;
+            margin: 60px auto 20px auto;
             text-align: center;
             padding: 40px 24px;
         }
@@ -265,7 +340,7 @@
 
         /* Footer Layout elements */
         footer {
-            margin-top: 100px;
+            margin-top: 60px;
             border-top: 1px solid rgba(255,255,255,0.05);
             padding: 60px 24px;
             text-align: center;
@@ -300,6 +375,12 @@
             font-size: 0.75rem;
             color: rgba(255,255,255,0.3);
             margin-top: 30px;
+        }
+
+        /* Adjust positions for clean mobile layout scrolling */
+        @media (max-width: 992px) {
+            .slider-btn.prev { left: 15px; }
+            .slider-btn.next { right: 15px; }
         }
 
         @media (max-width: 768px) {
@@ -342,17 +423,28 @@
     <div id="page-home" class="container page-section active-section">
         <h2 class="section-title">Sample Work</h2>
         
-        <!-- Only features your 3 selected popular curation items -->
-        <div class="longform-grid">
-            <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe>
+        <!-- Interactive Horizontal Video Slider matches sketch perfectly -->
+        <div class="carousel-wrapper">
+            <button class="slider-btn prev" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
+            
+            <div class="carousel-container">
+                <div class="carousel-track" id="sliderTrack">
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/9hAjujgMuJs?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                    <div class="carousel-slide">
+                        <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
+                    </div>
+                </div>
             </div>
-            <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe>
-            </div>
-            <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe>
-            </div>
+
+            <button class="slider-btn next" onclick="moveSlider(1)"><i class="fas fa-chevron-right"></i></button>
         </div>
 
         <section class="cta-section">
@@ -366,13 +458,12 @@
     <div id="page-portfolio" class="container page-section">
         <h2 class="section-title">My Portfolio Library</h2>
         
-        <!-- Category filters inside the main portfolio tab -->
         <div class="portfolio-tabs">
             <button id="tab-long" class="tab-btn active" onclick="switchPortfolioTab('longform')">Longform Work</button>
             <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">Shortform Shorts</button>
         </div>
 
-        <!-- Longform Library Wrapper -->
+        <!-- Longform Full Library Wrapper -->
         <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe></div>
@@ -383,7 +474,7 @@
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe></div>
         </div>
 
-        <!-- Shortform Library Wrapper -->
+        <!-- Shortform Full Library Wrapper -->
         <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe></div>
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe></div>
@@ -414,17 +505,31 @@
     </footer>
 
     <script>
+        // Slider Navigation Engine
+        let currentSlide = 0;
+        const totalSlides = 4; // 4 sample curated videos
+
+        function moveSlider(direction) {
+            currentSlide += direction;
+            
+            // Boundary protections loops
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            } else if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+            
+            const track = document.getElementById('sliderTrack');
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
         // System to swap between global page layouts smoothly
         function switchPage(pageTarget) {
-            // Remove active states from nav links
             document.getElementById('nav-home').classList.remove('active');
             document.getElementById('nav-portfolio').classList.remove('active');
-            
-            // Remove active state from current panels
             document.getElementById('page-home').classList.remove('active-section');
             document.getElementById('page-portfolio').classList.remove('active-section');
 
-            // Apply target active states
             if(pageTarget === 'home') {
                 document.getElementById('nav-home').classList.add('active');
                 document.getElementById('page-home').classList.add('active-section');
