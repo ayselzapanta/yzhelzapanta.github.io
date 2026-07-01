@@ -58,7 +58,7 @@
             filter: blur(0);
         }
 
-        /* 2. Classic Slide Up (Great for clean section titles) */
+        /* 2. Classic Slide Up (Great for clean section titles & text blocks) */
         .reveal-slide-up {
             transform: translateY(40px);
             transition-property: opacity, transform;
@@ -332,7 +332,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
- z-index: 10;
+            z-index: 10;
             transition: all 0.3s ease;
         }
 
@@ -661,12 +661,13 @@
     <div id="page-portfolio" class="container page-section">
         <h2 class="section-title reveal-base reveal-slide-up">My Portfolio Library</h2>
         
+        <!-- Tabs trigger with premium Blur animation -->
         <div class="portfolio-tabs reveal-base reveal-fade-blur delay-1">
             <button id="tab-long" class="tab-btn active" onclick="switchPortfolioTab('longform')">LONGFORM</button>
             <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">SHORTFORM</button>
         </div>
 
-        <!-- Longform Library Wrapper with Alternating Left/Right Slide-in animations -->
+        <!-- Longform Library Wrapper with Alternating Left/Right/Up split transitions -->
         <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
             <div class="video-box longform-box reveal-base reveal-slide-left delay-1" onclick="handleGridPlayback(this, 'FZu5jqHczI0')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/FZu5jqHczI0/maxresdefault.jpg');">
@@ -819,15 +820,25 @@
             element.appendChild(iframe);
         }
 
-        // RE-TRIGGER VARIETY REVEAL SYSTEM ON NAV
-        function refreshScrollAnimations() {
-            const elements = document.querySelectorAll('.reveal-base');
-            elements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 20) {
+        // DYNAMIC STATE RESET AND TRIGGER PASS
+        function triggerTargetSectionAnimations(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const animationElements = container.querySelectorAll('.reveal-base');
+            
+            // First clear out old active states to allow fresh injection sequence
+            animationElements.forEach(el => el.classList.remove('active-reveal'));
+
+            // Force reflow block to make sure browser applies state update cleanly
+            void container.offsetWidth;
+
+            // Instantly execute animation stack sequential check
+            animationElements.forEach(el => {
+                const bounds = el.getBoundingClientRect();
+                // If it is in viewport space, trigger it immediately
+                if (bounds.top < window.innerHeight - 10) {
                     el.classList.add('active-reveal');
-                } else {
-                    el.classList.remove('active-reveal');
                 }
             });
         }
@@ -842,18 +853,26 @@
             document.getElementById('page-about').classList.remove('active-section');
             document.getElementById('page-portfolio').classList.remove('active-section');
 
+            let currentContainerId = '';
             if(pageTarget === 'home') {
                 document.getElementById('nav-home').classList.add('active');
                 document.getElementById('page-home').classList.add('active-section');
+                currentContainerId = 'page-home';
             } else if (pageTarget === 'about') {
                 document.getElementById('nav-about').classList.add('active');
                 document.getElementById('page-about').classList.add('active-section');
+                currentContainerId = 'page-about';
             } else if (pageTarget === 'portfolio') {
                 document.getElementById('nav-portfolio').classList.add('active');
                 document.getElementById('page-portfolio').classList.add('active-section');
+                currentContainerId = 'page-portfolio';
             }
             window.scrollTo(0, 0);
-            setTimeout(refreshScrollAnimations, 60);
+            
+            // Allow display change to compile, then smoothly fire targeted entry
+            setTimeout(() => {
+                triggerTargetSectionAnimations(currentContainerId);
+            }, 50);
         }
 
         function switchPortfolioTab(type) {
@@ -863,17 +882,24 @@
             document.getElementById('subgrid-longform').classList.remove('active-subgrid');
             document.getElementById('subgrid-shortform').classList.remove('active-subgrid');
 
+            let currentGridId = '';
             if(type === 'longform') {
                 document.getElementById('tab-long').classList.add('active');
                 document.getElementById('subgrid-longform').classList.add('active-subgrid');
+                currentGridId = 'subgrid-longform';
             } else if(type === 'shortform') {
                 document.getElementById('tab-short').classList.add('active');
                 document.getElementById('subgrid-shortform').classList.add('active-subgrid');
+                currentGridId = 'subgrid-shortform';
             }
-            setTimeout(refreshScrollAnimations, 60);
+            
+            // Re-trigger animations inside the specific active subgrid tab container
+            setTimeout(() => {
+                triggerTargetSectionAnimations(currentGridId);
+            }, 50);
         }
 
-        // ROBUST MULTI-VARIETY INTERSECTION OBSERVER CORE ENGINE
+        // GLOBAL OBSERVER RULES (Runs alongside dynamic page triggers)
         document.addEventListener("DOMContentLoaded", () => {
             const revealOptions = {
                 threshold: 0.02,
@@ -892,7 +918,10 @@
                 revealObserver.observe(element);
             });
             
-            setTimeout(refreshScrollAnimations, 150);
+            // Fire initial home landing pass
+            setTimeout(() => {
+                triggerTargetSectionAnimations('page-home');
+            }, 100);
         });
     </script>
 </body>
