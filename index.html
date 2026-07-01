@@ -149,7 +149,7 @@
 
         /* Responsive Container */
         .container {
-            max-width: 1200px;
+            max-width: 1280px; /* Expanded slightly for larger layout elements */
             margin: 0 auto;
             padding: 0 30px;
         }
@@ -322,7 +322,7 @@
 
         .portfolio-subgrid {
             display: none;
-            max-width: 1050px; /* Reduced container footprint to shrink active sizing matching Reference Design */
+            max-width: 1200px; /* Made bigger to expand video display space card sizes */
             margin: 0 auto;
         }
 
@@ -330,16 +330,17 @@
             display: grid;
         }
 
-        /* Fixed structural sizing to match Portfolio Page.jpg perfectly */
+        /* Longform configuration - Fixed at exactly 3 items per row layout */
         .longform-grid {
             grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
+            gap: 30px;
         }
 
+        /* Shortform configuration - Scaled up to 3 items per row instead of 4 to make them physically bigger */
         .shortform-grid {
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 950px; /* Brings vertical items closer together structurally */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1000px; 
         }
 
         /* HD Crystal-Clear Thumbnail Wrapper Architecture */
@@ -498,7 +499,7 @@
             .slider-btn.prev { left: 15px; }
             .slider-btn.next { right: 15px; }
             .longform-grid { grid-template-columns: repeat(2, 1fr); }
-            .shortform-grid { grid-template-columns: repeat(3, 1fr); }
+            .shortform-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
@@ -506,7 +507,7 @@
             .sub-bar { flex-direction: column; gap: 8px; }
             .sub-bar .line { display: none; }
             .longform-grid { grid-template-columns: 1fr; }
-            .shortform-grid { grid-template-columns: repeat(2, 1fr); }
+            .shortform-grid { grid-template-columns: 1fr; }
             .about-grid { flex-direction: column; padding: 30px 20px; gap: 30px; }
             .about-image-container { flex: 0 0 280px; width: 100%; height: 320px; }
             .about-content h3 { font-size: 1.4rem; }
@@ -731,6 +732,12 @@
             });
         }
 
+        // Stops currently executing grids when actions change
+        function clearInjectedGridVideos() {
+            document.querySelectorAll('.portfolio-subgrid .video-box iframe').forEach(iframe => iframe.remove());
+            document.querySelectorAll('.portfolio-subgrid .thumb-overlay').forEach(overlay => overlay.style.opacity = '1');
+        }
+
         function pauseAllVideos() {
             for (let playerKey in ytPlayers) {
                 if (ytPlayers[playerKey] && typeof ytPlayers[playerKey].pauseVideo === 'function') {
@@ -741,9 +748,7 @@
                     }
                 }
             }
-            // Clear any active running iframe injectors inside our portfolio grid elements
-            document.querySelectorAll('.video-box iframe').forEach(iframe => iframe.remove());
-            document.querySelectorAll('.thumb-overlay').forEach(overlay => overlay.style.opacity = '1');
+            clearInjectedGridVideos();
         }
 
         track.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -773,9 +778,12 @@
             }
         });
 
-        // Dynamic High-Definition Video Injector Loader
+        // Dynamic High-Definition Video Injector Loader with Auto-Teardown for playing nodes
         function loadVideo(element, videoId) {
-            // Find overlay element inside selected container box
+            // Instantly clear any previously injected iframe inside the grid layout to stop background playback
+            clearInjectedGridVideos();
+            
+            // Hide overlay target
             const overlay = element.querySelector('.thumb-overlay');
             overlay.style.opacity = '0';
             
@@ -818,6 +826,7 @@
 
         // Subtab management inside the Portfolio view
         function switchPortfolioTab(type) {
+            clearInjectedGridVideos();
             document.getElementById('tab-long').classList.remove('active');
             document.getElementById('tab-short').classList.remove('active');
             document.getElementById('subgrid-longform').classList.remove('active-subgrid');
