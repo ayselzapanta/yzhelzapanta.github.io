@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yzhel Zapanta | Video Editor Portfolio</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans for that premium typography from Main Page_2.jpg -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for social media and slider icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --bg-color: #0b0c10;
@@ -13,13 +21,15 @@
             --text-main: #ffffff;
             --text-muted: #a4b3c6;
             --card-bg: #11141a;
+            /* Global Font Variable assignment */
+            --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: var(--font-family);
             scroll-behavior: smooth;
         }
 
@@ -28,6 +38,7 @@
             color: var(--text-main);
             padding-bottom: 60px;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Top Navigation Menu */
@@ -71,9 +82,9 @@
 
         h1 {
             font-size: 4rem;
-            font-weight: 700;
+            font-weight: 800; /* Extra bold profile weight */
             margin-bottom: 35px;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
         }
 
         /* Subtitle layout with horizontal rule lines */
@@ -97,7 +108,7 @@
         }
 
         .sub-item {
-            font-weight: 500;
+            font-weight: 600;
             white-space: nowrap;
         }
 
@@ -162,7 +173,7 @@
             transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Triggers container glow and subtle scale up when hovering */
+        /* Container scale up and subtle glow highlight */
         .carousel-container:hover {
             transform: scale(1.02);
             box-shadow: 0 0 30px var(--accent-glow);
@@ -219,7 +230,7 @@
         .slider-btn.prev { left: -70px; }
         .slider-btn.next { right: -70px; }
 
-        /* Portfolio Specific Toggle Buttons */
+        /* Portfolio Tabs Layout */
         .portfolio-tabs {
             display: flex;
             justify-content: center;
@@ -265,7 +276,7 @@
             gap: 25px;
         }
 
-        /* Portfolio standard view video box items */
+        /* Portfolio video frame containers */
         .video-box {
             position: relative;
             width: 100%;
@@ -307,11 +318,12 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .cta-section h2 {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 30px;
             letter-spacing: -0.5px;
         }
@@ -333,7 +345,7 @@
             opacity: 0.9;
         }
 
-        /* Footer Layout elements */
+        /* Footer Element Rules */
         footer {
             margin-top: 60px;
             border-top: 1px solid rgba(255,255,255,0.05);
@@ -343,7 +355,7 @@
 
         .footer-logo {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 30px;
             letter-spacing: -0.5px;
         }
@@ -360,6 +372,7 @@
             text-decoration: none;
             font-size: 0.85rem;
             cursor: pointer;
+            font-weight: 500;
         }
 
         .footer-nav a:hover {
@@ -388,6 +401,7 @@
 </head>
 <body>
 
+    <!-- Main Navigation linking pages dynamically -->
     <nav>
         <a id="nav-home" class="active" onclick="switchPage('home')">Home</a>
         <a id="nav-about" href="mailto:aysel.zapanta@gmail.com">About</a>
@@ -413,33 +427,39 @@
         </div>
     </header>
 
+    <!-- ================= HOME PAGE SECTION ================= -->
     <div id="page-home" class="container page-section active-section">
         <h2 class="section-title">Sample Work</h2>
         
+        <!-- Infinite Horizontal Video Slider Architecture -->
         <div class="carousel-wrapper">
             <button class="slider-btn prev" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
             
             <div class="carousel-container">
                 <div class="carousel-track" id="sliderTrack">
+                    <!-- Note: enablejsapi=1 parameter added to allow script API hooks to control pause/play events -->
+                    <!-- Clone of Last Slide (Index 0) -->
                     <div class="carousel-slide">
-                        <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
+                        <iframe id="slide-clone-last" src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                     
+                    <!-- Real Curated Slides (Indices 1 to 4) -->
                     <div class="carousel-slide">
-                        <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
+                        <iframe id="slide-video-1" src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                     <div class="carousel-slide">
-                        <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU?enablejsapi=1" allowfullscreen></iframe>
+                        <iframe id="slide-video-2" src="https://www.youtube.com/embed/Ft8f1kzJitU?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                     <div class="carousel-slide">
-                        <iframe src="https://www.youtube.com/embed/9hAjujgMuJs?enablejsapi=1" allowfullscreen></iframe>
+                        <iframe id="slide-video-3" src="https://www.youtube.com/embed/9hAjujgMuJs?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                     <div class="carousel-slide">
-                        <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
+                        <iframe id="slide-video-4" src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                     
+                    <!-- Clone of First Slide (Index 5) -->
                     <div class="carousel-slide">
-                        <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
+                        <iframe id="slide-clone-first" src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -454,6 +474,7 @@
         </section>
     </div>
 
+    <!-- ================= PORTFOLIO PAGE SECTION ================= -->
     <div id="page-portfolio" class="container page-section">
         <h2 class="section-title">My Portfolio Library</h2>
         
@@ -462,6 +483,7 @@
             <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">Shortform Shorts</button>
         </div>
 
+        <!-- Longform Library Wrapper -->
         <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe></div>
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe></div>
@@ -472,6 +494,7 @@
             <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe></div>
         </div>
 
+        <!-- Shortform Library Wrapper -->
         <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe></div>
             <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe></div>
@@ -501,19 +524,56 @@
         </div>
     </footer>
 
+    <!-- Inject the asynchronous script loader for official YouTube Iframe Player controls -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
         // Infinite Loop Slider Control Logic
         const track = document.getElementById('sliderTrack');
         
-        let currentSlide = 1; // Starts at 1 because index 0 is the cloned last slide
+        let currentSlide = 1; 
         const totalRealSlides = 4;
-        let isMoving = false; // Safe animation click lock flag
+        let isMoving = false; 
         
+        // Dictionary tracking mapped instances generated by YT API asynchronously
+        let ytPlayers = {};
+
+        // Auto-executed routine by YouTube library to structure dynamic object control bindings
+        function onYouTubeIframeAPIReady() {
+            const iframeIds = ['slide-clone-last', 'slide-video-1', 'slide-video-2', 'slide-video-3', 'slide-video-4', 'slide-clone-first'];
+            
+            iframeIds.forEach(id => {
+                ytPlayers[id] = new YT.Player(id, {
+                    events: {
+                        'onReady': function(event) {
+                            // Sub-routines can go here if needed later
+                        }
+                    }
+                });
+            });
+        }
+
+        // Global check execution to pause active video players upon layout slide shifts
+        function pauseAllVideos() {
+            for (let playerKey in ytPlayers) {
+                if (ytPlayers[playerKey] && typeof ytPlayers[playerKey].pauseVideo === 'function') {
+                    try {
+                        ytPlayers[playerKey].pauseVideo();
+                    } catch (err) {
+                        console.log("Player instance not ready yet:", err);
+                    }
+                }
+            }
+        }
+
         // Initialize layout position to target first real slide
         track.style.transform = `translateX(-${currentSlide * 100}%)`;
 
         function moveSlider(direction) {
-            if (isMoving) return; // Prevent double click glitches
+            if (isMoving) return; 
+            
+            // Instantly mute/pause audio before shifting slides away
+            pauseAllVideos();
             
             isMoving = true;
             currentSlide += direction;
@@ -522,17 +582,14 @@
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
-        // Listen for the CSS sliding animation to completely end before adjusting loop positions
         track.addEventListener('transitionend', () => {
-            isMoving = false; // Free up click mechanics
+            isMoving = false; 
 
             if (currentSlide === 0) {
-                // Instant seamless teleport to matching end index slide
                 track.style.transition = "none";
                 currentSlide = totalRealSlides;
                 track.style.transform = `translateX(-${currentSlide * 100}%)`;
             } else if (currentSlide === totalRealSlides + 1) {
-                // Instant seamless teleport to matching starting index slide
                 track.style.transition = "none";
                 currentSlide = 1;
                 track.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -541,6 +598,9 @@
 
         // System to swap between global page layouts smoothly
         function switchPage(pageTarget) {
+            // Pause any main page sample videos when traveling away to Portfolio library
+            pauseAllVideos();
+
             document.getElementById('nav-home').classList.remove('active');
             document.getElementById('nav-portfolio').classList.remove('active');
             document.getElementById('page-home').classList.remove('active-section');
