@@ -243,7 +243,7 @@
             min-width: 100%;
             position: relative;
             padding-top: 56.25%;
-            background: var(--bg-color); /* Blends background color to prevent contrast pop */
+            background: var(--bg-color);
         }
 
         .carousel-slide iframe {
@@ -253,7 +253,6 @@
             width: 100%;
             height: 100%;
             border: 0;
-            transition: opacity 0.3s ease; /* Blends visual rendering frames cleanly */
         }
 
         .slider-btn {
@@ -284,7 +283,6 @@
 
         .slider-btn.prev { left: -70px; }
         .slider-btn.next { right: -70px; }
-
 
         /* ================= PORTFOLIO SECTIONS & TAB STYLING ================= */
         .portfolio-tabs {
@@ -325,13 +323,13 @@
             display: grid;
         }
 
-        /* Longform: Fixed 3 Columns per row, upscaled card gaps */
+        /* Longform: Fixed 3 Columns per row */
         .longform-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: 35px;
         }
 
-        /* Shortform: Upscaled to exactly 4 Columns on 1 single row */
+        /* Shortform: Exactly 4 Columns on 1 single row */
         .shortform-grid {
             grid-template-columns: repeat(4, 1fr);
             gap: 30px;
@@ -378,7 +376,6 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Disable outer container pointer intercepts once clicked to let native iframe UI behave */
         .video-box.playing-active {
             cursor: default;
         }
@@ -677,23 +674,37 @@
         <div class="copyright">&copy; 2026 Yzhel Zapanta. All Rights Reserved.</div>
     </footer>
 
+    <!-- Asynchronously Load the Official YouTube Player API Script -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
         const track = document.getElementById('sliderTrack');
         let currentSlide = 1; 
         const totalRealSlides = 4;
         let isMoving = false; 
+        
+        // Array to store individual YouTube player instances for the slider
+        let players = [];
 
-        // Hard Reset Home Page Carousel elements
-        function resetHomeSliderVideos() {
-            const sliderIframes = document.querySelectorAll('.carousel-slide iframe');
-            sliderIframes.forEach(iframe => {
-                const currentSrc = iframe.src;
-                iframe.src = '';
-                iframe.src = currentSrc;
+        // This built-in hook automatically executes once the script above loads
+        function onYouTubeIframeAPIReady() {
+            const iframes = document.querySelectorAll('.carousel-slide iframe');
+            iframes.forEach((iframe) => {
+                // Initialize a new player interface control object for each slide iframe
+                players.push(new YT.Player(iframe.id));
             });
         }
 
-        // Teardown Active Grid items
+        // Stops audio cleanly using the API instead of a hard text teardown (fixes the black flash)
+        function pauseHomeSliderVideos() {
+            players.forEach(player => {
+                if (player && typeof player.pauseVideo === 'function') {
+                    player.pauseVideo();
+                }
+            });
+        }
+
+        // Teardown Active Grid items (these still use injection method since they start from thumbnail images)
         function clearInjectedGridVideos() {
             document.querySelectorAll('.portfolio-subgrid .video-box').forEach(box => {
                 box.classList.remove('playing-active');
@@ -703,7 +714,7 @@
         }
 
         function pauseAllGlobalMedia() {
-            resetHomeSliderVideos();
+            pauseHomeSliderVideos();
             clearInjectedGridVideos();
         }
 
@@ -733,17 +744,11 @@
             }
         });
 
-        // Handles injection and protects standard native play/pause configurations
         function handleGridPlayback(element, videoId) {
-            // If it's already active, prevent parent re-injection looping entirely
             if (element.classList.contains('playing-active')) {
                 return;
             }
-
-            // Clean up any other running items first
             clearInjectedGridVideos();
-            
-            // Lock and hide overlay elements
             element.classList.add('playing-active');
             
             const iframe = document.createElement('iframe');
