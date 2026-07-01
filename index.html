@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yzhel Zapanta | Video Editor Portfolio</title>
     
-    <!-- Google Fonts: Plus Jakarta Sans for premium typography -->
+    <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for social media and slider icons -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -86,7 +86,6 @@
             letter-spacing: -1.5px;
         }
 
-        /* Subtitle layout with horizontal rule lines */
         .sub-bar {
             display: flex;
             align-items: center;
@@ -111,7 +110,6 @@
             white-space: nowrap;
         }
 
-        /* Social Icons Grid Setup */
         .socials-row {
             display: flex;
             justify-content: center;
@@ -130,7 +128,7 @@
             transform: translateY(-3px);
         }
 
-        /* Section Architecture */
+        /* Section Visibility Controllers */
         .page-section {
             display: none;
         }
@@ -147,14 +145,14 @@
             letter-spacing: -0.5px;
         }
 
-        /* Responsive Container */
+        /* Expanded Container Outer Boundary */
         .container {
-            max-width: 1280px; /* Expanded slightly for larger layout elements */
+            max-width: 1440px; 
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 40px;
         }
 
-        /* ================= TWO-COLUMN ABOUT VIEW STYLING ================= */
+        /* ================= ABOUT GRID VIEW ================= */
         .about-grid {
             display: flex;
             align-items: center;
@@ -213,14 +211,10 @@
             margin-bottom: 20px;
         }
 
-        .about-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* ================= SEAMLESS INFINITE SLIDER ================= */
+        /* ================= HOME PAGE INFINITE SLIDER ================= */
         .carousel-wrapper {
             position: relative;
-            max-width: 850px;
+            max-width: 950px;
             margin: 0 auto 50px auto;
             display: flex;
             align-items: center;
@@ -236,7 +230,7 @@
         }
 
         .carousel-container:hover {
-            transform: scale(1.02);
+            transform: scale(1.01);
             box-shadow: 0 0 30px var(--accent-glow);
         }
 
@@ -322,7 +316,7 @@
 
         .portfolio-subgrid {
             display: none;
-            max-width: 1200px; /* Made bigger to expand video display space card sizes */
+            max-width: 1360px; 
             margin: 0 auto;
         }
 
@@ -330,36 +324,35 @@
             display: grid;
         }
 
-        /* Longform configuration - Fixed at exactly 3 items per row layout */
+        /* Longform: Fixed 3 Columns per row, upscaled card gaps */
         .longform-grid {
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 35px;
         }
 
-        /* Shortform configuration - Scaled up to 3 items per row instead of 4 to make them physically bigger */
+        /* Shortform: Upscaled to exactly 4 Columns on 1 single row */
         .shortform-grid {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 30px;
-            max-width: 1000px; 
         }
 
-        /* HD Crystal-Clear Thumbnail Wrapper Architecture */
+        /* HD Crystal-Clear Thumbnail Architecture */
         .video-box {
             position: relative;
             width: 100%;
             background: #000;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
             cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
         }
 
         .video-box:hover {
-            transform: scale(1.03);
-            border-color: rgba(0, 210, 255, 0.3);
-            box-shadow: 0 0 25px var(--accent-glow);
+            transform: scale(1.025);
+            border-color: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
         .longform-box { padding-top: 56.25%; } 
@@ -374,7 +367,6 @@
             border: 0;
         }
 
-        /* HD Overlay States */
         .thumb-overlay {
             background-position: center;
             background-size: cover;
@@ -385,11 +377,20 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Native YouTube play button mimic styling */
+        /* Disable outer container pointer intercepts once clicked to let native iframe UI behave */
+        .video-box.playing-active {
+            cursor: default;
+        }
+        .video-box.playing-active .thumb-overlay {
+            pointer-events: none; 
+            display: none;
+        }
+
+        /* Native Play UI Design */
         .play-overlay-btn {
             width: 68px;
             height: 48px;
-            background: rgba(33, 33, 33, 0.8);
+            background: rgba(33, 33, 33, 0.9);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -404,7 +405,6 @@
             transform: scale(1.1);
         }
 
-        /* Shorts specific icon adjustment */
         .shortform-box .play-overlay-btn {
             width: 55px;
             height: 55px;
@@ -494,10 +494,8 @@
             margin-top: 30px;
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 992px) {
-            .slider-btn.prev { left: 15px; }
-            .slider-btn.next { right: 15px; }
+        /* Responsive Viewports */
+        @media (max-width: 1200px) {
             .longform-grid { grid-template-columns: repeat(2, 1fr); }
             .shortform-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -510,13 +508,11 @@
             .shortform-grid { grid-template-columns: 1fr; }
             .about-grid { flex-direction: column; padding: 30px 20px; gap: 30px; }
             .about-image-container { flex: 0 0 280px; width: 100%; height: 320px; }
-            .about-content h3 { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Main Navigation linking pages dynamically -->
     <nav>
         <a id="nav-home" class="active" onclick="switchPage('home')">Home</a>
         <a id="nav-about" onclick="switchPage('about')">About</a>
@@ -525,7 +521,6 @@
 
     <header>
         <h1>Yzhel Zapanta</h1>
-        
         <div class="sub-bar">
             <div class="line"></div>
             <div class="sub-item">Video Editor</div>
@@ -546,18 +541,14 @@
     <div id="page-home" class="container page-section active-section">
         <h2 class="section-title">Sample Work</h2>
         
-        <!-- Infinite Horizontal Video Slider Architecture -->
         <div class="carousel-wrapper">
             <button class="slider-btn prev" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
             
             <div class="carousel-container">
                 <div class="carousel-track" id="sliderTrack">
-                    <!-- Clone of Last Slide -->
                     <div class="carousel-slide">
                         <iframe id="slide-clone-last" src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
                     </div>
-                    
-                    <!-- Real Curated Slides -->
                     <div class="carousel-slide">
                         <iframe id="slide-video-1" src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
@@ -570,8 +561,6 @@
                     <div class="carousel-slide">
                         <iframe id="slide-video-4" src="https://www.youtube.com/embed/Ec-gnw4KmgE?enablejsapi=1" allowfullscreen></iframe>
                     </div>
-                    
-                    <!-- Clone of First Slide -->
                     <div class="carousel-slide">
                         <iframe id="slide-clone-first" src="https://www.youtube.com/embed/cSXxWPrZIi8?enablejsapi=1" allowfullscreen></iframe>
                     </div>
@@ -591,96 +580,85 @@
     <!-- ================= DEDICATED ABOUT SECTION ================= -->
     <div id="page-about" class="container page-section">
         <h2 class="section-title">About Me</h2>
-        
         <div class="about-grid">
-            <!-- Profile Image Container -->
             <div class="about-image-container">
                 <img src="profile.jpg" alt="Yzhel Zapanta" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <i class="fas fa-user image-fallback" style="display: none;"></i>
             </div>
-            
-            <!-- Bio text layout column -->
             <div class="about-content">
                 <h3>I edit for retention, pacing, and impact.</h3>
                 <p>Great video editing isn't just about putting clips together—it’s about managing human attention. I’m Yzhel, a video editor based in the Philippines, and I help creators and brands turn raw footage into sharp, high-retention stories that keep audiences hooked.</p>
-                <p>From deep-dive longform content to hyper-optimized shortform hooks, I build visual pacing that respects the viewer's time and elevates your brand's production value. No fluff, no generic templates—just clean, deliberate storytelling designed to perform.</p>
+                <p>From deep-dive longform content to hyper-optimized shortform hooks, I build visual pacing that respects the viewer's time and elevates your brand's production value.</p>
             </div>
         </div>
-
-        <section class="cta-section">
-            <p>Let's collaborate</p>
-            <h2>Ready to start your project?</h2>
-            <a href="mailto:aysel.zapanta@gmail.com?subject=Inquiry%20-%20Video%20Editing%20Services" class="cta-btn">Book a Call</a>
-        </section>
     </div>
 
     <!-- ================= PORTFOLIO PAGE SECTION ================= -->
     <div id="page-portfolio" class="container page-section">
         <h2 class="section-title">My Portfolio Library</h2>
         
-        <!-- Renamed Tabs to LONGFORM and SHORTFORM natively -->
         <div class="portfolio-tabs">
             <button id="tab-long" class="tab-btn active" onclick="switchPortfolioTab('longform')">LONGFORM</button>
             <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">SHORTFORM</button>
         </div>
 
-        <!-- Longform Library Wrapper with High-Definition Native Thumbnails -->
+        <!-- Longform Library Wrapper -->
         <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
-            <div class="video-box longform-box" onclick="loadVideo(this, 'FZu5jqHczI0')">
+            <div class="video-box longform-box" onclick="handleGridPlayback(this, 'FZu5jqHczI0')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/FZu5jqHczI0/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box" onclick="loadVideo(this, 'pt1yy_0cCIE')">
+            <div class="video-box longform-box" onclick="handleGridPlayback(this, 'pt1yy_0cCIE')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/pt1yy_0cCIE/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box" onclick="loadVideo(this, 'Ft8f1kzJitU')">
+            <div class="video-box longform-box" onclick="handleGridPlayback(this, 'Ft8f1kzJitU')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/Ft8f1kzJitU/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box" onclick="loadVideo(this, 'Ec-gnw4KmgE')">
+            <div class="video-box longform-box" onclick="handleGridPlayback(this, 'Ec-gnw4KmgE')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/Ec-gnw4KmgE/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box" onclick="loadVideo(this, 'syUndIx5F3M')">
+            <div class="video-box longform-box" onclick="handleGridPlayback(this, 'syUndIx5F3M')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/syUndIx5F3M/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box" onclick="loadVideo(this, '9hAjujgMuJs')">
+            <div class="video-box longform-box" onclick="handleGridPlayback(this, '9hAjujgMuJs')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/9hAjujgMuJs/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box longform-box" onclick="loadVideo(this, 'cSXxWPrZIi8')">
+            <div class="video-box longform-box" onclick="handleGridPlayback(this, 'cSXxWPrZIi8')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/cSXxWPrZIi8/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
         </div>
 
-        <!-- Shortform Library Wrapper with High-Definition Native Thumbnails -->
+        <!-- Shortform Library Wrapper -->
         <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
-            <div class="video-box shortform-box" onclick="loadVideo(this, 'aeEkcQucT1g')">
+            <div class="video-box shortform-box" onclick="handleGridPlayback(this, 'aeEkcQucT1g')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/aeEkcQucT1g/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box shortform-box" onclick="loadVideo(this, 'QukdQKmrKaQ')">
+            <div class="video-box shortform-box" onclick="handleGridPlayback(this, 'QukdQKmrKaQ')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/QukdQKmrKaQ/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box shortform-box" onclick="loadVideo(this, 'ZjQM_mrmdh0')">
+            <div class="video-box shortform-box" onclick="handleGridPlayback(this, 'ZjQM_mrmdh0')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/ZjQM_mrmdh0/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
             </div>
-            <div class="video-box shortform-box" onclick="loadVideo(this, 'N4roc4I67Mg')">
+            <div class="video-box shortform-box" onclick="handleGridPlayback(this, 'N4roc4I67Mg')">
                 <div class="thumb-overlay" style="background-image: url('https://img.youtube.com/vi/N4roc4I67Mg/maxresdefault.jpg');">
                     <div class="play-overlay-btn"><i class="fas fa-play"></i></div>
                 </div>
@@ -690,64 +668,41 @@
 
     <footer>
         <div class="footer-logo">Create</div>
-        
         <div class="footer-nav">
             <a onclick="switchPage('home')">Home</a>
             <a onclick="switchPage('about')">About</a>
             <a onclick="switchPage('portfolio')">Portfolio</a>
         </div>
-
-        <div class="socials-row">
-            <a href="https://www.instagram.com/itsayselzapanta/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.youtube.com/@yzhelzapanta" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.linkedin.com/in/yzhel-john-zapanta/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-            <a href="mailto:aysel.zapanta@gmail.com"><i class="fas fa-envelope"></i></a>
-        </div>
-
-        <div class="copyright">
-            &copy; 2026 Yzhel Zapanta. All Rights Reserved.
-        </div>
+        <div class="copyright">&copy; 2026 Yzhel Zapanta. All Rights Reserved.</div>
     </footer>
 
-    <!-- Inject the asynchronous script loader for official YouTube Iframe Player controls -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-
     <script>
-        // Infinite Loop Slider Control Logic
         const track = document.getElementById('sliderTrack');
-        
         let currentSlide = 1; 
         const totalRealSlides = 4;
         let isMoving = false; 
-        
-        let ytPlayers = {};
 
-        function onYouTubeIframeAPIReady() {
-            const iframeIds = ['slide-clone-last', 'slide-video-1', 'slide-video-2', 'slide-video-3', 'slide-video-4', 'slide-clone-first'];
-            
-            iframeIds.forEach(id => {
-                ytPlayers[id] = new YT.Player(id, {
-                    events: { 'onReady': function(event) {} }
-                });
+        // Hard Reset Home Page Carousel elements
+        function resetHomeSliderVideos() {
+            const sliderIframes = document.querySelectorAll('.carousel-slide iframe');
+            sliderIframes.forEach(iframe => {
+                const currentSrc = iframe.src;
+                iframe.src = '';
+                iframe.src = currentSrc;
             });
         }
 
-        // Stops currently executing grids when actions change
+        // Teardown Active Grid items
         function clearInjectedGridVideos() {
-            document.querySelectorAll('.portfolio-subgrid .video-box iframe').forEach(iframe => iframe.remove());
-            document.querySelectorAll('.portfolio-subgrid .thumb-overlay').forEach(overlay => overlay.style.opacity = '1');
+            document.querySelectorAll('.portfolio-subgrid .video-box').forEach(box => {
+                box.classList.remove('playing-active');
+                const iframe = box.querySelector('iframe');
+                if (iframe) iframe.remove();
+            });
         }
 
-        function pauseAllVideos() {
-            for (let playerKey in ytPlayers) {
-                if (ytPlayers[playerKey] && typeof ytPlayers[playerKey].pauseVideo === 'function') {
-                    try {
-                        ytPlayers[playerKey].pauseVideo();
-                    } catch (err) {
-                        console.log("Player instance not ready yet:", err);
-                    }
-                }
-            }
+        function pauseAllGlobalMedia() {
+            resetHomeSliderVideos();
             clearInjectedGridVideos();
         }
 
@@ -756,7 +711,7 @@
         function moveSlider(direction) {
             if (isMoving) return; 
             
-            pauseAllVideos();
+            pauseAllGlobalMedia();
             isMoving = true;
             currentSlide += direction;
             
@@ -766,7 +721,6 @@
 
         track.addEventListener('transitionend', () => {
             isMoving = false; 
-
             if (currentSlide === 0) {
                 track.style.transition = "none";
                 currentSlide = totalRealSlides;
@@ -778,39 +732,36 @@
             }
         });
 
-        // Dynamic High-Definition Video Injector Loader with Auto-Teardown for playing nodes
-        function loadVideo(element, videoId) {
-            // Instantly clear any previously injected iframe inside the grid layout to stop background playback
+        // Handles injection and protects standard native play/pause configurations
+        function handleGridPlayback(element, videoId) {
+            // If it's already active, prevent parent re-injection looping entirely
+            if (element.classList.contains('playing-active')) {
+                return;
+            }
+
+            // Clean up any other running items first
             clearInjectedGridVideos();
             
-            // Hide overlay target
-            const overlay = element.querySelector('.thumb-overlay');
-            overlay.style.opacity = '0';
+            // Lock and hide overlay elements
+            element.classList.add('playing-active');
             
-            setTimeout(() => {
-                const iframe = document.createElement('iframe');
-                iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`);
-                iframe.setAttribute('allowfullscreen', '1');
-                iframe.setAttribute('allow', 'autoplay; encrypted-media');
-                element.appendChild(iframe);
-            }, 200);
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`);
+            iframe.setAttribute('allowfullscreen', '1');
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            element.appendChild(iframe);
         }
 
-        // Dynamic multi-page template manager
         function switchPage(pageTarget) {
-            pauseAllVideos();
-
-            // Clear active link state
+            pauseAllGlobalMedia();
             document.getElementById('nav-home').classList.remove('active');
             document.getElementById('nav-about').classList.remove('active');
             document.getElementById('nav-portfolio').classList.remove('active');
             
-            // Clear active section visibility state
             document.getElementById('page-home').classList.remove('active-section');
             document.getElementById('page-about').classList.remove('active-section');
             document.getElementById('page-portfolio').classList.remove('active-section');
 
-            // Apply targeted page states
             if(pageTarget === 'home') {
                 document.getElementById('nav-home').classList.add('active');
                 document.getElementById('page-home').classList.add('active-section');
@@ -824,9 +775,8 @@
             window.scrollTo(0, 0);
         }
 
-        // Subtab management inside the Portfolio view
         function switchPortfolioTab(type) {
-            clearInjectedGridVideos();
+            pauseAllGlobalMedia();
             document.getElementById('tab-long').classList.remove('active');
             document.getElementById('tab-short').classList.remove('active');
             document.getElementById('subgrid-longform').classList.remove('active-subgrid');
