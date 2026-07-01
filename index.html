@@ -13,6 +13,7 @@
             --accent-glow: rgba(0, 210, 255, 0.2);
             --text-main: #ffffff;
             --text-muted: #a4b3c6;
+            --card-bg: #11141a;
         }
 
         * {
@@ -20,6 +21,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -28,12 +30,17 @@
             padding-bottom: 60px;
         }
 
-        /* Top Navigation Menu to match reference */
+        /* Top Navigation Menu */
         nav {
             display: flex;
             justify-content: center;
             gap: 30px;
             padding: 30px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(11, 12, 16, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
         }
 
         nav a {
@@ -43,16 +50,18 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: 600;
+            cursor: pointer;
             transition: color 0.3s;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
         }
 
         nav a:hover, nav a.active {
             color: var(--text-main);
-            border-bottom: 2px solid var(--text-main);
-            padding-bottom: 4px;
+            border-bottom-color: var(--text-main);
         }
 
-        /* Hero Header Structure from Main Page.jpg */
+        /* Hero Header Structure */
         header {
             max-width: 1000px;
             margin: 40px auto 60px auto;
@@ -111,16 +120,59 @@
             transform: translateY(-3px);
         }
 
-        /* Section Headings */
+        /* Section Architecture */
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active-section {
+            display: block;
+        }
+
         .section-title {
             text-align: center;
             font-size: 2.2rem;
             font-weight: 700;
-            margin: 80px 0 40px 0;
+            margin: 60px 0 40px 0;
             letter-spacing: -0.5px;
         }
 
-        /* Responsive Grids tailored per section style */
+        /* Portfolio Specific Toggle Buttons */
+        .portfolio-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid #23354d;
+            color: var(--text-muted);
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--text-main);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        .portfolio-subgrid {
+            display: none;
+        }
+
+        .portfolio-subgrid.active-subgrid {
+            display: grid;
+        }
+
+        /* Responsive Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -128,19 +180,17 @@
         }
 
         .longform-grid {
-            display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin-bottom: 60px;
         }
 
         .shortform-grid {
-            display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 25px;
         }
 
-        /* Media Frame wrappers to hold standard & vertical native specs */
+        /* Media Frame wrappers */
         .video-box {
             position: relative;
             width: 100%;
@@ -157,7 +207,7 @@
         }
 
         .longform-box {
-            padding-top: 56.25%; /* Fixed 16:9 */
+            padding-top: 56.25%; /* Fixed 16:9 widescreen */
         }
 
         .shortform-box {
@@ -173,9 +223,49 @@
             border: 0;
         }
 
-        /* Footer Layout elements based on the bottom layout design */
+        /* CTA Section to mimic reference */
+        .cta-section {
+            max-width: 800px;
+            margin: 90px auto 40px auto;
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            padding: 12px 32px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Footer Layout elements */
         footer {
-            margin-top: 120px;
+            margin-top: 100px;
             border-top: 1px solid rgba(255,255,255,0.05);
             padding: 60px 24px;
             text-align: center;
@@ -199,6 +289,11 @@
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .footer-nav a:hover {
+            color: var(--text-main);
         }
 
         .copyright {
@@ -217,10 +312,11 @@
 </head>
 <body>
 
+    <!-- Main Navigation linking pages dynamically -->
     <nav>
-        <a href="#" class="active">Home</a>
-        <a href="mailto:aysel.zapanta@gmail.com">About</a>
-        <a href="#portfolio">Portfolio</a>
+        <a id="nav-home" class="active" onclick="switchPage('home')">Home</a>
+        <a id="nav-about" href="mailto:aysel.zapanta@gmail.com">About</a>
+        <a id="nav-portfolio" onclick="switchPage('portfolio')">Portfolio</a>
     </nav>
 
     <header>
@@ -242,60 +338,67 @@
         </div>
     </header>
 
-    <div class="container" id="portfolio">
+    <!-- ================= HOME PAGE SECTION ================= -->
+    <div id="page-home" class="container page-section active-section">
+        <h2 class="section-title">Sample Work</h2>
         
-        <!-- LONGFORM PORTFOLIO SECTION -->
-        <h2 class="section-title">Popular Videos</h2>
+        <!-- Only features your 3 selected popular curation items -->
         <div class="longform-grid">
             <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe>
-            </div>
-            <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe>
             </div>
             <div class="video-box longform-box">
                 <iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe>
             </div>
             <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe>
-            </div>
-            <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe>
-            </div>
-            <div class="video-box longform-box">
                 <iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe>
             </div>
-            <div class="video-box longform-box">
-                <iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe>
-            </div>
         </div>
 
-        <!-- SHORTFORM PORTFOLIO SECTION -->
-        <h2 class="section-title">Shortform Reels</h2>
-        <div class="shortform-grid">
-            <div class="video-box shortform-box">
-                <iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe>
-            </div>
-            <div class="video-box shortform-box">
-                <iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe>
-            </div>
-            <div class="video-box shortform-box">
-                <iframe src="https://www.youtube.com/embed/ZjQM_mrmdh0" allowfullscreen></iframe>
-            </div>
-            <div class="video-box shortform-box">
-                <iframe src="https://www.youtube.com/embed/N4roc4I67Mg" allowfullscreen></iframe>
-            </div>
+        <section class="cta-section">
+            <p>Take your brand to the next level</p>
+            <h2>Have Some Questions?<br>Get In Touch</h2>
+            <a href="mailto:aysel.zapanta@gmail.com?subject=Inquiry%20-%20Video%20Editing%20Services" class="cta-btn">Book a Call</a>
+        </section>
+    </div>
+
+    <!-- ================= PORTFOLIO PAGE SECTION ================= -->
+    <div id="page-portfolio" class="container page-section">
+        <h2 class="section-title">My Portfolio Library</h2>
+        
+        <!-- Category filters inside the main portfolio tab -->
+        <div class="portfolio-tabs">
+            <button id="tab-long" class="tab-btn active" onclick="switchPortfolioTab('longform')">Longform Work</button>
+            <button id="tab-short" class="tab-btn" onclick="switchPortfolioTab('shortform')">Shortform Shorts</button>
         </div>
 
+        <!-- Longform Library Wrapper -->
+        <div id="subgrid-longform" class="portfolio-subgrid longform-grid active-subgrid">
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/FZu5jqHczI0" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/pt1yy_0cCIE" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ft8f1kzJitU" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/Ec-gnw4KmgE" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/syUndIx5F3M" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/9hAjujgMuJs" allowfullscreen></iframe></div>
+            <div class="video-box longform-box"><iframe src="https://www.youtube.com/embed/cSXxWPrZIi8" allowfullscreen></iframe></div>
+        </div>
+
+        <!-- Shortform Library Wrapper -->
+        <div id="subgrid-shortform" class="portfolio-subgrid shortform-grid">
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/aeEkcQucT1g" allowfullscreen></iframe></div>
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/QukdQKmrKaQ" allowfullscreen></iframe></div>
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/ZjQM_mrmdh0" allowfullscreen></iframe></div>
+            <div class="video-box shortform-box"><iframe src="https://www.youtube.com/embed/N4roc4I67Mg" allowfullscreen></iframe></div>
+        </div>
     </div>
 
     <footer>
         <div class="footer-logo">Create</div>
         
         <div class="footer-nav">
-            <a href="#">Home</a>
+            <a onclick="switchPage('home')">Home</a>
             <a href="mailto:aysel.zapanta@gmail.com">About</a>
-            <a href="#portfolio">Portfolio</a>
+            <a onclick="switchPage('portfolio')">Portfolio</a>
         </div>
 
         <div class="socials-row">
@@ -310,5 +413,43 @@
         </div>
     </footer>
 
+    <script>
+        // System to swap between global page layouts smoothly
+        function switchPage(pageTarget) {
+            // Remove active states from nav links
+            document.getElementById('nav-home').classList.remove('active');
+            document.getElementById('nav-portfolio').classList.remove('active');
+            
+            // Remove active state from current panels
+            document.getElementById('page-home').classList.remove('active-section');
+            document.getElementById('page-portfolio').classList.remove('active-section');
+
+            // Apply target active states
+            if(pageTarget === 'home') {
+                document.getElementById('nav-home').classList.add('active');
+                document.getElementById('page-home').classList.add('active-section');
+            } else if (pageTarget === 'portfolio') {
+                document.getElementById('nav-portfolio').classList.add('active');
+                document.getElementById('page-portfolio').classList.add('active-section');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        // Subtab management inside the Portfolio view
+        function switchPortfolioTab(type) {
+            document.getElementById('tab-long').classList.remove('active');
+            document.getElementById('tab-short').classList.remove('active');
+            document.getElementById('subgrid-longform').classList.remove('active-subgrid');
+            document.getElementById('subgrid-shortform').classList.remove('active-subgrid');
+
+            if(type === 'longform') {
+                document.getElementById('tab-long').classList.add('active');
+                document.getElementById('subgrid-longform').classList.add('active-subgrid');
+            } else if(type === 'shortform') {
+                document.getElementById('tab-short').classList.add('active');
+                document.getElementById('subgrid-shortform').classList.add('active-subgrid');
+            }
+        }
+    </script>
 </body>
 </html>
